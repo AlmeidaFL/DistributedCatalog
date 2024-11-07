@@ -24,12 +24,10 @@ public class ProductConfiguration : IEntityTypeConfiguration<Product>
             .HasPrecision(2)
             .HasDefaultValueSql("0")
             .IsRequired();
-
-        builder.Property(x => x.ImageId);
-        builder.Ignore(x => x.Image);
         
         builder.HasOne(p => p.Image)
             .WithOne()
-            .HasForeignKey<Image>(x => x.ProductId);
+            .HasForeignKey<Image>(x => x.ProductId)
+            .IsRequired(false);
     }
 }

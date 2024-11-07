@@ -17,9 +17,10 @@ public class Startup
         // Add services to the container.
         services.AddGrpc();
 
+        var databaseConnection = configuration.GetConnectionString("Catalog");
         services.AddDbContext<CatalogDbContext>(options =>
-            options.UseMySql(configuration["ConnectionStrings:DefaultConnection"], 
-                new MySqlServerVersion(new Version(8, 0, 21))));
+            options.UseMySql(databaseConnection, 
+                new MySqlServerVersion(ServerVersion.AutoDetect(databaseConnection))));
     }
 
     public void Configure(IApplicationBuilder app, IWebHostEnvironment env)

@@ -23,13 +23,12 @@ public class ProductRepository : IProductRepository
     {
         var product = dbContext.Products.Join(
             dbContext.Images,
-            p => p.ImageId,
-            i => i.Id,
+            p => p.Id,
+            i => i.ProductId,
             (product, image) => new Product()
                 {
                  Price   = product.Price,
                  Description = product.Description,
-                 ImageId = image.Id,
                  Image = image,
                  Id = product.Id,
                  Name = product.Name,
