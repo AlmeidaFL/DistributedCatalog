@@ -32,11 +32,15 @@ public class Startup
             app.UseSwagger();
             app.UseSwaggerUI();
         }
+
+        app.UseCors();
+        app.UseStaticFiles();
         
         app.UseHttpsRedirection();
         app.UseRouting();
         app.UseEndpoints(config =>
         {
+            config.MapFallbackToFile("index.html");
             config.MapControllers();
         });
     }
