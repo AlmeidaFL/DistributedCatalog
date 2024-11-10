@@ -2,22 +2,18 @@ using CatalogService;
 using Google.Protobuf;
 using Product = CatalogBff.Domain.Product;
 
-namespace CatalogBff.Integration;
+namespace CatalogBff.Integration.Implementation;
 
-using grpc = CatalogService.CatalogService;
+using Grpc = CatalogService.CatalogService;
 
-public class ProductService(IGrpcClient<grpc.CatalogServiceClient> client)
+public class ProductService(Grpc.CatalogServiceClient client) : IProductService
 {
-    private IGrpcClient<grpc.CatalogServiceClient> grpcClient = null!;
-
-    public async Task AddProducts(IEnumerable<Product> products)
+    public async Task AddProducts(IReadOnlyList<Product> products)
     {
         if (!products.Any())
         {
             return;
         }
-        
-        var client = grpcClient.Create();
 
         using var call = client.AddProduct();
 
@@ -34,6 +30,5 @@ public class ProductService(IGrpcClient<grpc.CatalogServiceClient> client)
                 }
             });
         }
-
     }
 }

@@ -1,3 +1,6 @@
+using CatalogBff.Integration;
+using CatalogBff.Integration.Implementation;
+
 namespace CatalogBff;
 
 public class Startup
@@ -14,6 +17,12 @@ public class Startup
         services.AddControllers();
         services.AddEndpointsApiExplorer();
         services.AddSwaggerGen();
+        services.AddGrpcClient<CatalogService.CatalogService.CatalogServiceClient>(o =>
+        {
+            o.Address = new Uri(this.configuration.GetValue<string>("CatalogService:Url")!);
+        });
+
+        services.AddTransient<IProductService, ProductService>();
     }
 
     public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
