@@ -1,0 +1,32 @@
+<div>
+    Multiple
+    <input type="file" ng2FileSelect [uploader]="uploader" multiple  /><br/>
+    <br>
+    <table class="table-auto">
+        <thead>
+            <tr>
+                <th>File Name</th>
+                <th>Product Name</th>
+                <th>Description</th>
+                <th>Price</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                @for (item of uploader.queue; track item?.file?.name){
+                 <td>{{item?.file?.name}}</td>
+                 <td><input type="text" placeholder="Name" [ngModel]="getName(item?.file?.name)" (ngModelChange)="onChange($event)"/></td>
+                 <td><input type="text" placeholder="Description" [ngModel]="getDescription(item?.file?.name)" (ngModelChange)="updateDescription($event, item?.file?.name)"/></td>
+                 <td><input type="number" placeholder="Price" [ngModel]="getPrice(item?.file?.name)" (ngModelChange)="updatePrice($event, item?.file?.name)"/></td>
+                }
+            </tr>
+        </tbody>
+    </table>
+
+    <br>
+
+    <button (click)="uploader.uploadAll()" [disabled]="!uploader.getNotUploadedItems().length" class="px-6 py-2 bg-blue-500 text-white font-semibold rounded-lg shadow-md hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-400 transition duration-200 ease-in-out">
+        Add products
+    </button>
+    
+</div>
