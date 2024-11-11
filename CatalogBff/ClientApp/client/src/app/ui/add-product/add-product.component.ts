@@ -1,18 +1,21 @@
 import { Component } from '@angular/core';
 import { FileItem, FileUploader, FileUploadModule } from 'ng2-file-upload';
 import { FormsModule } from '@angular/forms'
+import { NgxFileDropComponent, NgxFileDropEntry, NgxFileDropModule } from 'ngx-file-drop';
 
 
 @Component({
   selector: 'add-product',
   standalone: true,
-  imports: [FileUploadModule, FormsModule],
+  imports: [FileUploadModule, FormsModule, NgxFileDropModule],
   templateUrl: './add-product.component.html',
 })
 export class AddProductComponent {
+  public files: NgxFileDropEntry[] = [];
+
   uploader: FileUploader;
   productByName = new Map<string, Product>()
-  serverUrl = "https://localhost:5203/api/product/"
+  serverUrl = "http://localhost:4200/api/product"
 
   actualPrice: number = 0
   actualName: string = ""
@@ -22,20 +25,23 @@ export class AddProductComponent {
     this.uploader = new FileUploader({
       url: this.serverUrl,
       disableMultipart: true,
-      formatDataFunction: async (item: FileItem) => {
+      autoUpload: false,
+      headers: [{name: "Content-Type", value: "application/json"}],
+      formatDataFunctionIsAsync: true,
+      formatDataFunction: (item: FileItem) => {
         return new Promise( (resolve, _) => {
           resolve({
             name: item._file.name,
             description: this.productByName.get(item._file.name)!.description,
             price: this.productByName.get(item._file.name)!.price,
-            image: item
+            image: item._file
           });
         });
       }
     })
   }
 
-  public onChange(value: any){
+  publiconChange(value: any){
     console.log("any")
   }
 

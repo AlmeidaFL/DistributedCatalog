@@ -15,9 +15,9 @@
             <tr>
                 @for (item of uploader.queue; track item?.file?.name){
                  <td>{{item?.file?.name}}</td>
-                 <td><input type="text" placeholder="Name" [ngModel]="getName(item?.file?.name)" (ngModelChange)="onChange($event)"/></td>
-                 <td><input type="text" placeholder="Description" [ngModel]="getDescription(item?.file?.name)" (ngModelChange)="updateDescription($event, item?.file?.name)"/></td>
-                 <td><input type="number" placeholder="Price" [ngModel]="getPrice(item?.file?.name)" (ngModelChange)="updatePrice($event, item?.file?.name)"/></td>
+                 <td><input type="text" placeholder="Name" [(ngModel)]="actualName" (ngModelChange)="updateName($event, item?.file?.name)"/></td>
+                 <td><input type="text" placeholder="Description" [(ngModel)]="actualDescription" (ngModelChange)="updateDescription($event, item?.file?.name)"/></td>
+                 <td><input type="number" placeholder="Price" [(ngModel)]="actualPrice" (ngModelChange)="updatePrice($event, item?.file?.name)"/></td>
                 }
             </tr>
         </tbody>
