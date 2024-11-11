@@ -1,7 +1,14 @@
 <div>
-    Multiple
-    <input type="file" ng2FileSelect [uploader]="uploader" multiple  /><br/>
     <br>
+    <div class="center">
+        <ngx-file-drop dropZoneLabel="Drop files here" (onFileDrop)="dropped($event)">
+            <ng-template ngx-file-drop-content-tmp let-openFileSelector="openFileSelector">
+              Optional custom content that replaces the the entire default content.
+              <button type="button" (click)="openFileSelector()">Browse Files</button>
+            </ng-template>
+        </ngx-file-drop>
+    </div>
+
     <table class="table-auto">
         <thead>
             <tr>
@@ -12,21 +19,20 @@
             </tr>
         </thead>
         <tbody>
-            <tr>
-                @for (item of uploader.queue; track item?.file?.name){
-                 <td>{{item?.file?.name}}</td>
-                 <td><input type="text" placeholder="Name" [(ngModel)]="actualName" (ngModelChange)="updateName($event, item?.file?.name)"/></td>
-                 <td><input type="text" placeholder="Description" [(ngModel)]="actualDescription" (ngModelChange)="updateDescription($event, item?.file?.name)"/></td>
-                 <td><input type="number" placeholder="Price" [(ngModel)]="actualPrice" (ngModelChange)="updatePrice($event, item?.file?.name)"/></td>
+                @for (product of productByName | keyvalue; track $index)
+                {
+                    <tr>
+                    <td>{{product.key}}</td>
+                    <td><input type="text" placeholder="Name" [(ngModel)]="actualName" (ngModelChange)="updateName($event, product.key)"/></td>
+                    <td><input type="text" placeholder="Description" [(ngModel)]="actualDescription" (ngModelChange)="updateDescription($event, product.key)"/></td>
+                    <td><input type="number" placeholder="Price" [(ngModel)]="actualPrice" (ngModelChange)="updatePrice($event, product.key)"/></td>
+                    </tr>
                 }
-            </tr>
         </tbody>
     </table>
 
-    <br>
-
-    <button (click)="uploader.uploadAll()" [disabled]="!uploader.getNotUploadedItems().length" class="px-6 py-2 bg-blue-500 text-white font-semibold rounded-lg shadow-md hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-400 transition duration-200 ease-in-out">
-        Add products
+    <button (click)="upload()" class="px-6 py-2 bg-blue-500 text-white font-semibold rounded-lg shadow-md hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-400 transition duration-200 ease-in-out">
+        Upload
     </button>
     
 </div>
