@@ -33,29 +33,36 @@ export class AddProductComponent {
       })
 
         if(item.fileEntry.isFile && image != undefined){
-          this.productByName.set(item.fileEntry.name, {name:"", description:"", price:0, image: undefined})
+          this.productByName.set(item.fileEntry.name, {name:"", description:"", price:0, image: image})
         }
     })
   }
 
-  public upload(){
-    const formData = new FormData()
-    const productsArray = Array.from(this.productByName.values()).map((product) => {
+public async upload() {
+  const toBase64 = (file: File): Promise<string> => {
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.readAsDataURL(file);
+      reader.onload = () => resolve(reader.result as string);  // Garante que result é uma string
+      reader.onerror = () => reject('Erro ao converter arquivo para Base64');
+    });
+  };
+
+  const productsArray = await Promise.all(Array.from(this.productByName.values()).map(async (product) => {
       return {
         name: product.name,
         description: product.description,
         price: product.price,
-        image: product.image
-      };
-    });
+        image: await toBase64(product.image!)
+  }}));
+
+  this.client.post(this.serverUrl, productsArray).subscribe(data => {
+      console.log(data);
+  });
+}
 
 
-    this.client.post(this.serverUrl, productsArray)
-    .subscribe(data => {
-      console.log(data)
-    })
-  }
-  
+
   updateName(name: string | undefined, productName: string| undefined){
     if (productName == undefined || name == undefined){
       return;
