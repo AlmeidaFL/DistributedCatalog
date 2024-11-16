@@ -1,5 +1,3 @@
-using CatalogService.Services;
-
 namespace CatalogService;
 
 public class Program

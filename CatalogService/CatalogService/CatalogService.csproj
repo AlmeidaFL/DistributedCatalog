@@ -6,11 +6,7 @@
         <ImplicitUsings>enable</ImplicitUsings>
         <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
     </PropertyGroup>
-
-    <ItemGroup>
-        <Protobuf Include="Protos\greet.proto" GrpcServices="Server"/>
-    </ItemGroup>
-
+    
     <ItemGroup>
         <PackageReference Include="Grpc.AspNetCore" Version="2.57.0"/>
         <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="8.0.10">
@@ -24,6 +20,28 @@
       <Content Include="..\.dockerignore">
         <Link>.dockerignore</Link>
       </Content>
+      <Content Remove="Protos\**" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Folder Include="Controllers\" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Compile Remove="Protos\**" />
+      <Compile Include="Services\CatalogService.cs" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <EmbeddedResource Remove="Protos\**" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <None Remove="Protos\**" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\CatalogService.Integration\CatalogService.Integration.csproj" />
     </ItemGroup>
 
 </Project>

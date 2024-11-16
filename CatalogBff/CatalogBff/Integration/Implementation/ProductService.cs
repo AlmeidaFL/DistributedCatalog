@@ -31,4 +31,9 @@ public class ProductService(Grpc.CatalogServiceClient client) : IProductService
             });
         }
     }
+
+    public Task<Product> AddProduct(Product product)
+    {
+        return Task.FromResult(product);
+    }
 }

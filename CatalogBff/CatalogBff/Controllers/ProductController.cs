@@ -1,24 +1,22 @@
+using System.Buffers.Text;
 using CatalogBff.Controllers.Resources;
 using CatalogBff.Domain;
+using CatalogBff.Extensions;
 using CatalogBff.Integration;
 using Microsoft.AspNetCore.Mvc;
+using System.IO;
 
 namespace CatalogBff.Controllers;
 
 [ApiController]
 [Route("api/product")]
-public class ProductController(IProductService service)
+public class ProductController(IProductService service) : ControllerBase
 {
     [HttpPost()]
-    public async Task CreateProducts([FromBody] IEnumerable<ProductResource> resources)
+    public async Task CreateProducts([FromBody] IReadOnlyList<ProductResource> resources)
     {
-        var products = await Task.WhenAll(resources.Select(async r =>
-        {
-            using var stream = new MemoryStream();
-            await r.Image.CopyToAsync(stream);
-
-            return new Product(r.Name, r.Description, r.Price, stream.ToArray());
-        }));
+        var products = resources.Select(r => 
+            new Product(r.Name, r.Description, r.Price, r.Image.ConvertToBytes()));
         
         await service.AddProducts(products.ToList());
     }

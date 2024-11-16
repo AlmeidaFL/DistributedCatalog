@@ -3,6 +3,7 @@ using CatalogService.Domain;
 using Microsoft.EntityFrameworkCore;
 
 namespace CatalogService.Persistence;
+using Domain;
 
 public class CatalogDbContext : DbContext
 {

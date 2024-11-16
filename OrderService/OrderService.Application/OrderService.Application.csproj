@@ -1,0 +1,40 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>net8.0</TargetFramework>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <Reference Include="MassTransit">
+        <HintPath>..\..\..\..\.nuget\packages\masstransit\8.3.0\lib\net8.0\MassTransit.dll</HintPath>
+      </Reference>
+      <Reference Include="MassTransit.Abstractions">
+        <HintPath>..\..\..\..\.nuget\packages\masstransit.abstractions\8.3.0\lib\net8.0\MassTransit.Abstractions.dll</HintPath>
+      </Reference>
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\OrderService.Core\OrderService.Core.csproj" />
+      <ProjectReference Include="..\OrderService.Persistence\OrderService.Persistence.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Compile Remove="Saga\Events\PaymentProcessed.cs" />
+    </ItemGroup>
+    
+    <ItemGroup>
+        <Protobuf Include="Integration/Protos/catalog.proto" GrpcService="Client"/>
+    </ItemGroup>
+
+    <ItemGroup>
+      <PackageReference Include="Google.Protobuf" Version="3.28.3" />
+      <PackageReference Include="Grpc.Net.Client" Version="2.66.0" />
+      <PackageReference Include="Grpc.Tools" Version="2.67.0">
+        <PrivateAssets>all</PrivateAssets>
+        <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+      </PackageReference>
+    </ItemGroup>
+
+</Project>
