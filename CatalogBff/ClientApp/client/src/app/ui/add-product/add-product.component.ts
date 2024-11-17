@@ -13,6 +13,7 @@ import { CommonModule, NgFor } from '@angular/common';
 })
 export class AddProductComponent {
   public files: NgxFileDropEntry[] = [];
+  public placeholderImage: string = 'https://via.placeholder.com/80';
 
   public productByName = new Map<string, Product>()
   serverUrl = "http://localhost:4200/api/product"
@@ -24,6 +25,13 @@ export class AddProductComponent {
   constructor(private client: HttpClient){
   }
 
+  public getImage(product: any): string | null {
+    if (product.image) {
+      return product.image instanceof Promise ? null : product.image; // Exibe `null` se a Promise ainda não foi resolvida
+    }
+    return this.placeholderImage;
+  }
+
   public dropped(files: NgxFileDropEntry[]){
     files.forEach(item => {
       let image: File | undefined
@@ -33,7 +41,8 @@ export class AddProductComponent {
       })
 
         if(item.fileEntry.isFile && image != undefined){
-          this.productByName.set(item.fileEntry.name, {name:"", description:"", price:0, image: image})
+          const imageUrl = window.URL.createObjectURL(image)
+          this.productByName.set(item.fileEntry.name, {name:"", description:"", price:0, image: {file: image, value: imageUrl}})
         }
     })
   }
@@ -53,15 +62,13 @@ public async upload() {
         name: product.name,
         description: product.description,
         price: product.price,
-        image: await toBase64(product.image!)
+        image: await toBase64(product.image!.file)
   }}));
 
   this.client.post(this.serverUrl, productsArray).subscribe(data => {
       console.log(data);
   });
 }
-
-
 
   updateName(name: string | undefined, productName: string| undefined){
     if (productName == undefined || name == undefined){
@@ -77,6 +84,7 @@ public async upload() {
     if (productName == undefined || description == undefined){
       return;
     }
+    
     if (this.productByName.get(productName) == null || this.productByName.get(productName) == undefined){
       this.productByName.set(productName, {name:"", description:"", price:0, image: undefined})
     }
@@ -97,7 +105,6 @@ public async upload() {
     if (productName == undefined){
       return;
     }
-
     return this.productByName.get(productName)!.name
   }
 
@@ -121,5 +128,10 @@ interface Product{
   name: string,
   description: string,
   price: number,
-  image: File | undefined
+  image: Image | undefined
+}
+
+interface Image {
+  file: File,
+  value: string
 }
