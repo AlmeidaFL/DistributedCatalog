@@ -26,16 +26,16 @@
     </ItemGroup>
     
     <ItemGroup>
-        <Protobuf Include="Integration\Protos\catalog.proto" GrpcServices="Client"/>
-    </ItemGroup>
-    
-    <ItemGroup>
       <Compile Remove="Integration\IGrpcClient.cs" />
       <Compile Remove="Integration\Implementation\GrpcClient.cs" />
     </ItemGroup>
     
     <ItemGroup>
       <Folder Include="wwwroot\" />
+    </ItemGroup>
+    
+    <ItemGroup>
+      <ProjectReference Include="..\..\GrpcContracts\GrpcContracts\GrpcContracts.csproj" />
     </ItemGroup>
 
 </Project>

@@ -1,0 +1,40 @@
+syntax = "proto3";
+
+import "google/protobuf/empty.proto";
+
+option csharp_namespace = "GrpcContracts";
+
+package product;
+
+service CatalogService {
+  rpc GetProductById (GetProductByIdMessage) returns (Product);
+  rpc GetAllProducts (google.protobuf.Empty) returns (stream Product);
+  rpc AddProduct (stream Product) returns (google.protobuf.Empty);
+  rpc GetProductsByIds (GetProductsByIdsMessage) returns (stream ProductWithoutImage);
+}
+
+message GetProductByIdMessage {
+  string productId = 1;
+}
+
+message GetProductsByIdsMessage {
+  repeated string productId = 1;
+}
+
+message Product {
+  string name = 1;
+  double price = 2;
+  string description = 3;
+  Image image = 4;
+}
+
+message ProductWithoutImage {
+  string id = 1;
+  string name = 2;
+  double price = 3;
+  string description = 4;
+}
+
+message Image {
+  bytes data = 1;
+}

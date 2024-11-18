@@ -20,7 +20,7 @@ message GetProductByIdMessage {
 message GetProductsByIdsMessage {
   repeated string productId = 1;
 }
-
+  
 message Product {
   string name = 1;
   double price = 2;

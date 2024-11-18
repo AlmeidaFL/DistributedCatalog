@@ -1,10 +1,10 @@
-using CatalogService;
 using Google.Protobuf;
+using GrpcContracts;
 using Product = CatalogBff.Domain.Product;
 
 namespace CatalogBff.Integration.Implementation;
 
-using Grpc = CatalogService.CatalogService;
+using Grpc = CatalogService;
 
 public class ProductService(Grpc.CatalogServiceClient client) : IProductService
 {
@@ -19,7 +19,7 @@ public class ProductService(Grpc.CatalogServiceClient client) : IProductService
 
         foreach (var product in products)
         {
-            await call.RequestStream.WriteAsync(new CatalogService.Product
+            await call.RequestStream.WriteAsync(new GrpcContracts.Product()
             {
                 Name = product.Name,
                 Description = product.Description,

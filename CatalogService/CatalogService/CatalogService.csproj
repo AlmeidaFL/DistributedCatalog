@@ -28,20 +28,10 @@
     </ItemGroup>
 
     <ItemGroup>
-      <Compile Remove="Protos\**" />
-      <Compile Include="Services\CatalogService.cs" />
+        <Protobuf Include="..\GrpcContracts\**\*.proto" GrpcServices="Server"/>
     </ItemGroup>
 
     <ItemGroup>
-      <EmbeddedResource Remove="Protos\**" />
+      <ProjectReference Include="..\..\GrpcContracts\GrpcContracts\GrpcContracts.csproj" />
     </ItemGroup>
-
-    <ItemGroup>
-      <None Remove="Protos\**" />
-    </ItemGroup>
-
-    <ItemGroup>
-      <ProjectReference Include="..\CatalogService.Integration\CatalogService.Integration.csproj" />
-    </ItemGroup>
-
 </Project>

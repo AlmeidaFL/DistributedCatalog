@@ -1,12 +1,12 @@
-using CatalogService.Integration;
 using CatalogService.Persistence;
 using Grpc.Core;
+using GrpcContracts;
 
 namespace CatalogService.Services;
 
-public class CatalogService(CatalogDbContext dbContext) : Integration.CatalogService.CatalogServiceBase
+public class CatalogService(CatalogDbContext dbContext) : GrpcContracts.CatalogService.CatalogServiceBase
 {
-    public override Task GetProductsByIds(
+    public override async Task GetProductsByIds(
         GetProductsByIdsMessage request,
         IServerStreamWriter<ProductWithoutImage> responseStream,
         ServerCallContext context)
@@ -14,7 +14,7 @@ public class CatalogService(CatalogDbContext dbContext) : Integration.CatalogSer
         var entities = dbContext.Products.Where(product => request.ProductId.Contains(product.Id.ToString()));
         foreach (var product in entities)
         {
-            responseStream.WriteAsync(new ProductWithoutImage
+            await responseStream.WriteAsync(new ProductWithoutImage
             {   
                 Id = product.Id.ToString(),
                 Description = product.Description,
@@ -22,6 +22,5 @@ public class CatalogService(CatalogDbContext dbContext) : Integration.CatalogSer
                 Price = (double)product.Price,
             });
         }
-        return base.GetProductsByIds(request, responseStream, context);
     }
 }

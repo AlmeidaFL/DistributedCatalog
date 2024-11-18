@@ -18,7 +18,7 @@ public class Startup
         services.AddControllers();
         services.AddEndpointsApiExplorer();
         services.AddSwaggerGen();
-        services.AddGrpcClient<CatalogService.CatalogService.CatalogServiceClient>(o =>
+        services.AddGrpcClient<GrpcContracts.CatalogService.CatalogServiceClient>(o =>
         {
             o.Address = new Uri(this.configuration.GetValue<string>("CatalogService:Url")!);
         });
