@@ -12,7 +12,6 @@ public class ImageConfiguration : IEntityTypeConfiguration<Image>
         builder.Property(i => i.Id)
             .IsRequired();
 
-        builder.Property(i => i.Description);
         builder.Property(i => i.Representation)
             .HasColumnType("longblob");
     }

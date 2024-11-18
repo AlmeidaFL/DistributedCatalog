@@ -1,4 +1,5 @@
 using Google.Protobuf;
+using Grpc.Core;
 using GrpcContracts;
 using Product = CatalogBff.Domain.Product;
 
@@ -27,9 +28,12 @@ public class ProductService(Grpc.CatalogServiceClient client) : IProductService
                 Image = new Image
                 {
                     Data = ByteString.CopyFrom(product.Image)
-                }
+                },
             });
         }
+        
+        await call.RequestStream.CompleteAsync();
+        await call;
     }
 
     public Task<Product> AddProduct(Product product)

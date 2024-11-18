@@ -1,11 +1,21 @@
 using CatalogService.Persistence;
+using Google.Protobuf;
+using Google.Protobuf.WellKnownTypes;
 using Grpc.Core;
 using GrpcContracts;
+using Image = CatalogService.Domain.Image;
 
 namespace CatalogService.Services;
 
-public class CatalogService(CatalogDbContext dbContext) : GrpcContracts.CatalogService.CatalogServiceBase
+public class CatalogService: GrpcContracts.CatalogService.CatalogServiceBase
 {
+    private readonly CatalogDbContext dbContext;
+
+    public CatalogService(CatalogDbContext dbContext)
+    {
+        this.dbContext = dbContext;
+    }
+    
     public override async Task GetProductsByIds(
         GetProductsByIdsMessage request,
         IServerStreamWriter<ProductWithoutImage> responseStream,
@@ -22,5 +32,28 @@ public class CatalogService(CatalogDbContext dbContext) : GrpcContracts.CatalogS
                 Price = (double)product.Price,
             });
         }
+    }
+
+    public override async Task<Empty> AddProduct(IAsyncStreamReader<Product> requestStream, ServerCallContext context)
+    {
+        await foreach (var product in requestStream.ReadAllAsync())
+        {
+            var entity = new Domain.Product()
+            {
+                Name = product.Name,
+                Description = product.Description,
+                Price = (decimal)product.Price,
+                Image = new Image
+                {
+                    Representation = product.Image.Data.ToByteArray(),
+                }
+            };
+            Console.WriteLine(entity);
+            dbContext.Products.Add(entity);
+        }
+        
+        await dbContext.SaveChangesAsync();
+        
+        return await Task.FromResult(new Empty());
     }
 }

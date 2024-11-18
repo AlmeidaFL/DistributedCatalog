@@ -20,7 +20,7 @@ public class Startup
         services.AddSwaggerGen();
         services.AddGrpcClient<GrpcContracts.CatalogService.CatalogServiceClient>(o =>
         {
-            o.Address = new Uri(this.configuration.GetValue<string>("CatalogService:Url")!);
+            o.Address = new Uri(this.configuration["CatalogService:Url"]!);
         });
 
         services.AddTransient<IProductService, ProductService>();
@@ -28,28 +28,28 @@ public class Startup
 
     public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
     {
-        app.Use(async (context, next) =>
-        {
-            // Log da requisição
-            Console.WriteLine($"Request: {context.Request.Method} {context.Request.Path}");
-
-            // Log do corpo da requisição (se necessário)
-            if (context.Request.ContentLength > 0)
-            {
-                context.Request.EnableBuffering(); // Necessário para ler o corpo da requisição mais de uma vez
-                using (var reader = new StreamReader(context.Request.Body, Encoding.UTF8, leaveOpen: true))
-                {
-                    var body = await reader.ReadToEndAsync();
-                    Console.WriteLine($"Request Body: {body}");
-                    context.Request.Body.Position = 0; // Reinicia a posição para que outros middlewares possam ler o corpo
-                }
-            }
-
-            await next.Invoke();
-
-            // Log da resposta
-            Console.WriteLine($"Response: {context.Response.StatusCode}");
-        });
+        // app.Use(async (context, next) =>
+        // {
+        //     // Log da requisição
+        //     Console.WriteLine($"Request: {context.Request.Method} {context.Request.Path}");
+        //
+        //     // Log do corpo da requisição (se necessário)
+        //     if (context.Request.ContentLength > 0)
+        //     {
+        //         context.Request.EnableBuffering(); // Necessário para ler o corpo da requisição mais de uma vez
+        //         using (var reader = new StreamReader(context.Request.Body, Encoding.UTF8, leaveOpen: true))
+        //         {
+        //             var body = await reader.ReadToEndAsync();
+        //             Console.WriteLine($"Request Body: {body}");
+        //             context.Request.Body.Position = 0; // Reinicia a posição para que outros middlewares possam ler o corpo
+        //         }
+        //     }
+        //
+        //     await next.Invoke();
+        //
+        //     // Log da resposta
+        //     Console.WriteLine($"Response: {context.Response.StatusCode}");
+        // });
 
         if (env.IsDevelopment())
         {
