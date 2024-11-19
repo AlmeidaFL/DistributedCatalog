@@ -7,15 +7,9 @@ using Image = CatalogService.Domain.Image;
 
 namespace CatalogService.Services;
 
-public class CatalogService: GrpcContracts.CatalogService.CatalogServiceBase
+public class CatalogService(CatalogDbContext dbContext)
+    : GrpcContracts.CatalogService.CatalogServiceBase
 {
-    private readonly CatalogDbContext dbContext;
-
-    public CatalogService(CatalogDbContext dbContext)
-    {
-        this.dbContext = dbContext;
-    }
-    
     public override async Task GetProductsByIds(
         GetProductsByIdsMessage request,
         IServerStreamWriter<ProductWithoutImage> responseStream,
@@ -34,7 +28,9 @@ public class CatalogService: GrpcContracts.CatalogService.CatalogServiceBase
         }
     }
 
-    public override async Task<Empty> AddProduct(IAsyncStreamReader<Product> requestStream, ServerCallContext context)
+    public override async Task<Empty> AddProduct(
+        IAsyncStreamReader<Product> requestStream,
+        ServerCallContext context)
     {
         await foreach (var product in requestStream.ReadAllAsync())
         {
