@@ -56,8 +56,9 @@ public class Startup
             app.UseSwagger();
             app.UseSwaggerUI();
         }
-        
+
         app.UseCors();
+        app.UseDefaultFiles();
         app.UseStaticFiles();
 
         app.UseHttpsRedirection();

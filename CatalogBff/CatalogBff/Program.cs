@@ -7,8 +7,9 @@ public class Program
             .ConfigureWebHostDefaults(webBuilder =>
             {
                 webBuilder.UseStartup<Startup>();
+                webBuilder.UseWebRoot("wwwroot/browser");
             });
-    
+
     public static void Main(string[] args)
     {
         CreateHostBuilder(args).Build().Run();
