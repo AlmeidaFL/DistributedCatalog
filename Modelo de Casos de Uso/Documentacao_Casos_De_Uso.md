@@ -1290,4 +1290,175 @@
 - O sistema deve oferecer um editor de texto simples para respostas, permitindo a formatação básica (ex.: negrito, itálico).  
 - O vendedor deve poder adicionar links ou anexos (ex.: PDFs ou imagens) às respostas, quando permitido pelas regras do marketplace.  
 
+---
+
+# UC-DI01: Gerencia Devoluções ou Trocas
+
+## Identificação
+**Nome do Caso de Uso:** Gerencia Devoluções ou Trocas  
+**ID do Caso de Uso:** UC-DI01  
+**Ator Primário:** Distribuidor  
+**Atores Secundários:** Sistema de Estoque, Cliente  
+**Objetivo:** Permitir que o distribuidor gerencie solicitações de devoluções ou trocas de produtos feitas pelos clientes.  
+
+## Pré-condições
+- O pedido deve estar registrado no sistema.  
+- O cliente deve ter iniciado uma solicitação de devolução ou troca.  
+- O distribuidor deve estar autenticado no sistema.  
+
+## Pós-condições
+- A solicitação de devolução ou troca é registrada no sistema.  
+- O sistema atualiza os registros de estoque do distribuidor.  
+- O cliente é notificado sobre o status da solicitação.  
+
+## Fluxo Principal de Ações
+1. O distribuidor acessa a seção de devoluções ou trocas no sistema.  
+2. O sistema exibe uma lista de solicitações pendentes.  
+3. O distribuidor seleciona uma solicitação para análise.  
+4. O sistema exibe os detalhes da solicitação e o histórico do pedido.  
+5. O distribuidor aprova ou rejeita a solicitação.  
+6. O sistema registra a decisão e atualiza o status da solicitação.  
+7. O cliente é notificado sobre a decisão.  
+
+## Fluxos Alternativos
+
+### Fluxo Alternativo A: Pedido Incompleto
+**Condição de ativação:** O cliente não forneceu todas as informações necessárias.  
+1. O sistema solicita informações adicionais ao cliente.  
+2. O fluxo retorna ao passo 4 após o recebimento das informações.  
+
+## Fluxos de Exceção
+
+### Exceção 1: Falha no Sistema
+**Condição de ativação:** O sistema encontra uma falha ao processar a decisão do distribuidor.  
+1. O sistema registra o erro e informa ao distribuidor para tentar novamente mais tarde.  
+
+## Requisitos Não Funcionais
+- O sistema deve processar solicitações em até 3 segundos.  
+- O sistema deve registrar todas as ações para fins de auditoria.  
+
+## Notas de Design e Observações
+- O layout da interface deve ser intuitivo para permitir decisões rápidas pelo distribuidor.  
+- O sistema deve validar automaticamente se o prazo para devolução ou troca foi respeitado.  
+
+---
+
+# UC-DI02: Organiza Próximas Entregas de Pedidos
+
+## Identificação
+**Nome do Caso de Uso:** Organiza Próximas Entregas de Pedidos  
+**ID do Caso de Uso:** UC-DI02  
+**Ator Primário:** Distribuidor  
+**Atores Secundários:** Sistema de Entrega, Sistema de Estoque  
+**Objetivo:** Permitir que o distribuidor gerencie e agende entregas futuras com base em pedidos recebidos.  
+
+## Pré-condições
+- O distribuidor deve estar autenticado no sistema.  
+- Devem existir pedidos pendentes de entrega no sistema.  
+
+## Pós-condições
+- Os pedidos são organizados por prioridade de entrega.  
+- O sistema notifica os clientes sobre os agendamentos.  
+- O distribuidor é informado sobre a logística necessária.  
+
+## Fluxo Principal de Ações
+1. O distribuidor acessa a seção de entregas futuras.  
+2. O sistema exibe a lista de pedidos pendentes de entrega.  
+3. O distribuidor seleciona os pedidos que deseja organizar.  
+4. O sistema sugere uma prioridade com base na data de compra e distância.  
+5. O distribuidor confirma ou ajusta as prioridades.  
+6. O sistema agenda as entregas e notifica os clientes.  
+
+## Fluxos de Exceção
+
+### Exceção 1: Problema no Agendamento
+**Condição de ativação:** O sistema não consegue calcular a prioridade.  
+1. O distribuidor é informado para ajustar manualmente as entregas.  
+
+## Requisitos Não Funcionais
+- O sistema deve ser capaz de processar 500 pedidos simultaneamente.  
+- O cálculo de prioridades deve ser feito em até 2 segundos.  
+
+## Notas de Design e Observações
+- A interface deve exibir as rotas sugeridas para facilitar o planejamento.  
+- Deve ser possível exportar os agendamentos para integração com sistemas externos.  
+
+---
+
+# UC-DI03: Oferece Logística Personalizada
+
+## Identificação
+**Nome do Caso de Uso:** Oferece Logística Personalizada  
+**ID do Caso de Uso:** UC-DI03  
+**Ator Primário:** Distribuidor  
+**Atores Secundários:** Sistema de Entrega, Cliente  
+**Objetivo:** Permitir que o distribuidor ofereça soluções logísticas customizadas para clientes específicos.  
+
+## Pré-condições
+- O cliente deve solicitar uma solução logística personalizada.  
+- O distribuidor deve estar autenticado no sistema.  
+
+## Pós-condições
+- A solução personalizada é registrada no sistema.  
+- O cliente é notificado sobre os detalhes da solução proposta.  
+
+## Fluxo Principal de Ações
+1. O cliente solicita uma logística personalizada ao distribuidor.  
+2. O distribuidor analisa a solicitação e propõe uma solução.  
+3. O sistema registra a proposta e notifica o cliente.  
+4. O cliente aceita ou rejeita a proposta.  
+5. O sistema ajusta os agendamentos conforme a solução aprovada.  
+
+## Fluxos Alternativos
+
+### Fluxo Alternativo A: Solicitação Inviável
+**Condição de ativação:** A solução logística personalizada não é viável.  
+1. O sistema informa ao cliente e sugere opções padrão.  
+
+## Requisitos Não Funcionais
+- O sistema deve oferecer uma interface para rápida configuração de rotas.  
+- O tempo para gerar uma proposta deve ser inferior a 5 segundos.  
+
+## Notas de Design e Observações
+- Deve haver integração com mapas para simulação de rotas.  
+- O sistema deve considerar restrições logísticas locais.  
+
+---
+
+# UC-DI04: Notifica Novos Pedidos
+
+## Identificação
+**Nome do Caso de Uso:** Notifica Novos Pedidos  
+**ID do Caso de Uso:** UC-DI04  
+**Ator Primário:** Distribuidor  
+**Atores Secundários:** Sistema de Estoque  
+**Objetivo:** Notificar o distribuidor sobre novos pedidos realizados pelos clientes.  
+
+## Pré-condições
+- O pedido deve estar registrado no sistema.  
+- O distribuidor deve estar autenticado no sistema.  
+
+## Pós-condições
+- O distribuidor é notificado sobre os novos pedidos.  
+- O pedido é adicionado à fila de processamento.  
+
+## Fluxo Principal de Ações
+1. O cliente realiza um pedido no sistema.  
+2. O sistema registra o pedido e verifica o estoque.  
+3. O sistema notifica o distribuidor sobre o novo pedido.  
+4. O distribuidor visualiza o pedido e inicia a logística.  
+
+## Fluxos de Exceção
+
+### Exceção 1: Falha na Notificação
+**Condição de ativação:** O distribuidor não recebe a notificação.  
+1. O sistema tenta reenviar a notificação ou alerta a equipe de suporte.  
+
+## Requisitos Não Funcionais
+- O sistema deve enviar notificações em até 2 segundos após o registro do pedido.  
+- A integração com dispositivos móveis deve garantir acessibilidade às notificações.  
+
+## Notas de Design e Observações
+- As notificações devem incluir informações resumidas, como número do pedido e itens.  
+- Deve haver suporte para notificações via e-mail e aplicativo móvel.  
 
