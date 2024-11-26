@@ -679,5 +679,321 @@
 - A busca deve retornar os resultados em até 3 segundos.  
 
 ## Notas de Design e Observações
-- A interface deve permitir a seleção de intervalos ou medidas exatas para as dimensões.  
+- A interface deve permitir a seleção de intervalos ou medidas exatas para as dimensões.
+
+---
+
+# UC-C01: Adiciona Embalagens ao Carrinho
+
+## Identificação
+**Nome do Caso de Uso:** Adiciona Embalagens ao Carrinho  
+**ID do Caso de Uso:** UC-C01  
+**Ator Primário:** Comprador  
+**Atores Secundários:** Sistema de Banco de Dados  
+**Objetivo:** Permitir que o comprador selecione embalagens disponíveis e as adicione ao carrinho para compra futura.  
+
+## Pré-condições
+- O comprador deve estar autenticado no sistema.  
+- O sistema deve ter embalagens disponíveis no estoque.  
+
+## Pós-condições
+- As embalagens selecionadas são adicionadas ao carrinho do comprador na quantidade desejada.  
+- O sistema atualiza o carrinho de compras e mantém os itens até a finalização do pedido ou esvaziamento manual.  
+
+## Fluxo Principal de Eventos
+1. O ator primário (comprador) navega pelo catálogo de embalagens e seleciona um produto.  
+2. O sistema exibe os detalhes do produto (quantidade disponível, preço, descrição).  
+3. O ator primário insere a quantidade desejada e clica no botão “Adicionar ao Carrinho”.  
+4. O sistema verifica a disponibilidade da quantidade solicitada.  
+5. Se a quantidade estiver disponível, o sistema adiciona o item ao carrinho de compras.  
+6. O sistema exibe uma confirmação de que o item foi adicionado ao carrinho com sucesso.  
+7. O ator primário pode continuar comprando ou acessar o carrinho para revisar os itens.  
+
+## Fluxos Alternativos
+
+### Fluxo Alternativo A: Adicionar uma embalagem indisponível
+**Condição de ativação:** O comprador solicita uma quantidade de embalagens maior do que o disponível em estoque.  
+1. O sistema notifica o ator primário de que a quantidade solicitada excede o estoque disponível.  
+2. O ator primário pode optar por ajustar a quantidade ou aguardar a reposição de estoque.  
+3. Fluxo retorna ao passo 3 do fluxo principal.  
+
+### Fluxo Alternativo B: Acessar carrinho de compras antes de adicionar item
+**Condição de ativação:** O ator primário acessa o carrinho antes de adicionar um item.  
+1. O sistema exibe o carrinho de compras com os itens previamente adicionados (se houver).  
+2. O ator pode optar por continuar navegando no catálogo ou finalizar a compra.  
+
+## Fluxos de Exceção
+
+### Exceção 1: Falha no sistema de estoque
+**Condição de ativação:** O sistema de estoque está temporariamente indisponível.  
+1. O sistema notifica o ator primário sobre a falha na verificação de disponibilidade.  
+2. O ator primário pode optar por tentar novamente mais tarde ou contatar o suporte.  
+3. O caso de uso termina ou retorna ao passo 3 do fluxo principal.  
+
+### Exceção 2: Sessão do comprador expirada
+**Condição de ativação:** O comprador está inativo por muito tempo e a sessão expira.  
+1. O sistema redireciona o ator primário para a página de login, notificando-o da expiração.  
+2. O caso de uso retorna ao passo 1 após a reautenticação.  
+
+## Requisitos Não Funcionais
+- O sistema deve garantir que as atualizações de estoque sejam feitas em tempo real, evitando a adição de itens esgotados.  
+- O sistema deve exibir a confirmação da adição ao carrinho em até 2 segundos.  
+- O carrinho de compras deve ser persistente, permitindo que o comprador retorne mais tarde e encontre os itens ainda no carrinho.  
+
+## Notas de Design e Observações
+- O design da interface deve destacar o botão "Adicionar ao Carrinho" de forma visível, facilitando a interação do comprador.  
+- Um contador de itens deve ser visível no ícone do carrinho, indicando o número de produtos já adicionados.  
+- Considere implementar uma funcionalidade de "salvar para mais tarde" para itens não adquiridos imediatamente.  
+
+---
+
+# UC-C03: Realiza Pedido
+
+## Identificação
+**Nome do Caso de Uso:** Realiza Pedido  
+**ID do Caso de Uso:** UC-C03  
+**Ator Primário:** Comprador  
+**Atores Secundários:** Sistema de Pagamento, Sistema de Entrega  
+**Objetivo:** Permitir que o comprador finalize um pedido, escolhendo as opções de pagamento e envio disponíveis e confirmando a compra.  
+
+## Pré-condições
+- O comprador deve estar autenticado no sistema.  
+- O carrinho de compras deve conter pelo menos um item.  
+- O endereço de entrega deve estar cadastrado no sistema.  
+- Métodos de pagamento válidos devem estar disponíveis.  
+
+## Pós-condições
+- O pedido é registrado no sistema.  
+- O sistema gera uma confirmação de pedido.  
+- O sistema notifica o ator secundário (Sistema de Pagamento) para processar o pagamento.  
+- O sistema notifica o ator secundário (Sistema de Entrega) sobre o pedido, após confirmação do pagamento.  
+
+## Fluxo Principal de Ações
+1. O Comprador inicia o caso de uso clicando em "Ir para o Carrinho".  
+2. O sistema exibe o Resumo do Carrinho (itens + quantidade).  
+3. O Comprador clica em "Fechar Pedido".  
+4. O sistema exibe as opções de endereço de entrega e solicita confirmação ou seleção de um novo endereço.  
+5. O Comprador confirma o endereço desejado.  
+6. O sistema atualiza o Resumo do Pedido (itens + quantidade + total + Frete).  
+7. O sistema exibe as opções de métodos de pagamento e solicita que o comprador escolha uma opção.  
+8. O Comprador seleciona o método de pagamento desejado.  
+9. O sistema exibe o resumo final do pedido (itens + quantidade + total + Frete + método de pagamento selecionado).  
+10. O Comprador revisa o pedido e confirma a finalização.  
+11. O sistema processa o pedido, registra no banco de dados e notifica o Sistema de Pagamento.  
+12. O Sistema de Pagamento confirma o pagamento para o sistema.  
+13. O sistema gera uma confirmação de pedido e notifica o Sistema de Entrega.  
+14. O sistema exibe uma página de confirmação com os detalhes do pedido e prazo de entrega para o Comprador.  
+
+## Fluxos Alternativos
+
+### Fluxo Alternativo A: Adicionar Novo Endereço
+**Condição de ativação:** O comprador deseja utilizar um endereço de entrega diferente.  
+1. O Comprador seleciona a opção de adicionar um novo endereço.  
+2. O sistema solicita que o comprador insira os detalhes do novo endereço.  
+3. O Comprador insere o endereço e confirma.  
+4. O sistema registra o novo endereço e retorna ao passo 5 do fluxo principal.  
+
+### Fluxo Alternativo B: Método de Pagamento Indisponível
+**Condição de ativação:** O método de pagamento escolhido não está disponível.  
+1. O sistema informa ao Comprador que o método de pagamento selecionado está indisponível.  
+2. O Comprador escolhe um novo método de pagamento.  
+3. O sistema retorna ao passo 7 do fluxo principal.  
+
+### Fluxo Alternativo C: Alterar Itens do Carrinho
+**Condição de ativação:** O Comprador altera a quantidade de um ou mais itens antes do passo 3.  
+1. O Comprador digita ou clica no botão "+" ou no botão "-".  
+2. O resumo do carrinho é recalculado.  
+
+### Fluxo Alternativo D: Adicionar Cupom ao Pedido
+**Condição de ativação:** O Comprador digita o código de cupom entre os passos 7 e 10.  
+1. O Comprador digita o código.  
+2. O sistema valida o código.  
+3. O desconto associado ao código é aplicado ao total + Frete.  
+4. O sistema recalcula o resumo final do pedido.  
+
+## Fluxos de Exceção
+
+### Exceção 1: Falha no Pagamento
+**Condição de ativação:** O pagamento não é aprovado pelo Sistema de Pagamento.  
+1. O Sistema de Pagamento notifica o sistema de uma falha na transação.  
+2. O sistema informa ao Comprador que o pagamento não foi processado.  
+3. O sistema retorna ao passo 7 do fluxo principal para que o comprador selecione outra forma de pagamento.  
+
+## Requisitos Não Funcionais
+- O sistema deve processar o pagamento e registrar o pedido em até 5 segundos.  
+- O sistema deve ser capaz de lidar com 1000 pedidos simultâneos.  
+- O sistema deve estar disponível 99.9% do tempo para a finalização de pedidos.  
+
+## Notas de Design e Observações
+- O sistema deve garantir a segurança nas transações de pagamento, utilizando criptografia para os dados sensíveis.  
+- A integração com o Sistema de Pagamento e o Sistema de Entrega deve ser feita por meio de APIs RESTful.  
+- O layout da página de confirmação deve seguir as diretrizes de usabilidade, apresentando de forma clara o número do pedido e o prazo estimado para entrega.  
+
+---
+
+# UC-C04: Cria Cadastro de Comprador
+
+## Identificação
+**Nome do Caso de Uso:** Cria Cadastro de Comprador  
+**ID do Caso de Uso:** UC-C04  
+**Ator Primário:** Comprador Autorizado  
+**Atores Secundários:** Nenhum  
+**Objetivo:** Permitir que um usuário crie um cadastro como comprador no marketplace, inserindo informações pessoais e credenciais de acesso.  
+
+## Pré-condições
+- O usuário não deve ter um cadastro prévio no sistema.  
+- O sistema deve estar disponível para acesso.  
+
+## Pós-condições
+- O comprador é registrado no sistema.  
+- O sistema gera um identificador único para o comprador.  
+- O comprador pode acessar funcionalidades que exigem autenticação.  
+
+## Fluxo Principal de Ações
+1. O usuário acessa a página de cadastro.  
+2. O sistema exibe o formulário de cadastro.  
+3. O usuário preenche o formulário com as seguintes informações:
+   - Nome completo  
+   - Endereço de e-mail  
+   - Senha  
+   - Dados adicionais, como endereço de entrega padrão e número de telefone.  
+4. O sistema valida os dados fornecidos (e-mail único, formato correto de senha, etc.).  
+5. O usuário confirma os dados clicando em "Cadastrar".  
+6. O sistema registra as informações no banco de dados.  
+7. O sistema exibe uma mensagem de confirmação e redireciona o comprador para a página inicial autenticada.  
+
+## Fluxos Alternativos
+
+### Fluxo Alternativo A: Dados Inválidos
+**Condição de ativação:** O usuário insere informações inválidas ou incompletas.  
+1. O sistema destaca os campos com erro e exibe mensagens explicativas.  
+2. O sistema solicita que o usuário corrija os dados.  
+3. O fluxo retorna ao passo 4 do fluxo principal.  
+
+## Fluxos de Exceção
+
+### Exceção 1: E-mail já cadastrado
+**Condição de ativação:** O e-mail fornecido pelo usuário já está associado a uma conta.  
+1. O sistema exibe uma mensagem informando que o e-mail já foi cadastrado.  
+2. O sistema sugere ao usuário recuperar a senha.  
+
+## Requisitos Não Funcionais
+- O sistema deve validar os dados em menos de 2 segundos.  
+- As senhas devem ser armazenadas usando criptografia robusta (ex.: hashing com sal).  
+
+## Notas de Design e Observações
+- O formulário deve ser responsivo e acessível em dispositivos móveis.  
+- O sistema deve enviar um e-mail de boas-vindas ao comprador após o cadastro.  
+
+---
+
+# UC-C05: Acessa Histórico de Pedidos
+
+## Identificação
+**Nome do Caso de Uso:** Acessa histórico de pedidos  
+**ID do Caso de Uso:** UC-C05  
+**Ator Primário:** Comprador  
+**Atores Secundários:** Nenhum  
+**Objetivo:** Permitir que o comprador visualize o histórico de pedidos feitos no marketplace, com detalhes como status de entrega, data do pedido, e valores pagos.  
+
+## Pré-condições
+- O comprador deve estar autenticado no sistema.  
+- O comprador deve ter realizado pelo menos um pedido anteriormente.  
+
+## Pós-condições
+- O sistema exibe ao comprador o histórico dos pedidos realizados.  
+- O comprador poderá acessar os detalhes de um pedido específico a partir da lista exibida.  
+
+## Fluxo Principal de Eventos
+1. O ator primário (Comprador) inicia o caso de uso selecionando a opção de "Histórico de Pedidos" na interface.  
+2. O sistema exibe ao comprador a lista de pedidos realizados, com informações resumidas de cada pedido (data, valor, status).  
+3. O ator primário pode selecionar um pedido específico da lista.  
+4. O sistema exibe os detalhes completos do pedido selecionado, incluindo itens comprados, valores, endereço de entrega, e status do pedido.  
+5. O caso de uso é concluído quando o comprador decide fechar a visualização ou retornar para outra seção do marketplace.  
+
+## Fluxos Alternativos
+
+### Fluxo Alternativo A: Nenhum pedido realizado
+**Condição de ativação:** O comprador não possui pedidos registrados no sistema.  
+1. O sistema detecta que não há pedidos associados à conta do comprador.  
+2. O sistema exibe uma mensagem informando que não há histórico de pedidos para exibir.  
+3. O fluxo retorna ao início, permitindo que o comprador navegue para outras áreas do sistema.  
+
+### Fluxo Alternativo B: Pedido arquivado
+**Condição de ativação:** O comprador tenta acessar detalhes de um pedido antigo arquivado pelo sistema.  
+1. O sistema identifica que o pedido selecionado foi arquivado.  
+2. O sistema exibe uma mensagem ao comprador informando que detalhes completos do pedido não estão mais disponíveis.  
+3. O fluxo retorna ao ponto em que o comprador pode selecionar outro pedido ou sair do histórico.  
+
+## Fluxos de Exceção
+
+### Exceção 1: Falha de conexão com o servidor
+**Condição de ativação:** O sistema enfrenta problemas de conectividade ou indisponibilidade.  
+1. O sistema detecta uma falha de conexão ao tentar acessar o histórico de pedidos.  
+2. O sistema notifica o comprador sobre a falha e sugere tentar novamente mais tarde.  
+3. O caso de uso termina, sem exibir o histórico de pedidos.  
+
+## Requisitos Não Funcionais
+- O sistema deve responder à solicitação de acesso ao histórico de pedidos em até 3 segundos.  
+- O histórico de pedidos deve estar acessível ao comprador 99.9% do tempo.  
+- A interface de exibição do histórico deve ser intuitiva e acessível em dispositivos móveis.  
+
+## Notas de Design e Observações
+- O sistema deve armazenar de forma segura as informações dos pedidos para que possam ser acessadas rapidamente, utilizando indexação eficiente para garantir tempo de resposta rápido.  
+- Pode ser interessante implementar uma funcionalidade para exportar o histórico de pedidos para formatos como PDF ou CSV, proporcionando ao comprador uma forma de salvar os dados.  
+- O sistema deve considerar a privacidade do comprador, ocultando informações sensíveis como métodos de pagamento em caso de consultas externas ao ambiente autenticado.  
+
+---
+
+# UC-C06: Recebe Sugestões de Anúncios
+
+## Identificação
+**Nome do Caso de Uso:** Recebe Sugestões de Anúncios  
+**ID do Caso de Uso:** UC-C06  
+**Ator Primário:** Comprador  
+**Atores Secundários:** Sistema de Anúncios  
+**Objetivo:** Fornecer ao comprador sugestões personalizadas de anúncios de produtos com base em seu histórico de navegação, compras ou preferências.  
+
+## Pré-condições
+- O comprador deve estar autenticado no sistema.  
+- O comprador deve possuir algum histórico de interação no marketplace (ex.: visualizações, compras, pesquisas).  
+- O Sistema de Anúncios deve estar configurado para oferecer sugestões.  
+
+## Pós-condições
+- O comprador recebe sugestões de anúncios personalizadas na interface do marketplace.  
+- O sistema registra a interação do comprador com os anúncios para refinar futuras sugestões.  
+
+## Fluxo Principal de Ações
+1. O Comprador acessa a página inicial ou outra seção do marketplace.  
+2. O sistema solicita ao Sistema de Anúncios sugestões baseadas no perfil do comprador.  
+3. O Sistema de Anúncios retorna uma lista de anúncios relevantes.  
+4. O sistema exibe os anúncios sugeridos em locais destacados da interface (ex.: banners, cards).  
+5. O Comprador pode interagir com os anúncios (clicar, adicionar produtos ao carrinho, etc.).  
+6. O sistema registra as interações do comprador com os anúncios para ajustar futuras sugestões.  
+
+## Fluxos Alternativos
+
+### Fluxo Alternativo A: Sem Histórico de Dados Suficiente
+**Condição de ativação:** O comprador não possui histórico suficiente para gerar sugestões personalizadas.  
+1. O Sistema de Anúncios retorna sugestões genéricas ou baseadas em tendências do marketplace.  
+2. O sistema exibe essas sugestões na interface.  
+
+## Fluxos de Exceção
+
+### Exceção 1: Sistema de Anúncios Indisponível
+**Condição de ativação:** O Sistema de Anúncios não responde à solicitação.  
+1. O sistema exibe anúncios genéricos predefinidos no marketplace.  
+2. O sistema registra a falha e notifica o administrador do sistema para manutenção.  
+
+## Requisitos Não Funcionais
+- As sugestões de anúncios devem ser geradas em menos de 3 segundos para garantir boa experiência do usuário.  
+- O sistema deve utilizar algoritmos de recomendação com aprendizado de máquina para melhorar a relevância dos anúncios.  
+- O sistema deve ser capaz de exibir anúncios em dispositivos de diferentes tamanhos de tela.  
+
+## Notas de Design e Observações
+- O layout das sugestões deve ser visualmente atraente, mas não intrusivo para o comprador.  
+- Devem ser respeitadas as políticas de privacidade e proteção de dados ao gerar sugestões personalizadas.  
+- Anúncios podem incluir promoções de vendedores que investem em campanhas de destaque.  
+
+
 
