@@ -23,10 +23,6 @@
     <ItemGroup>
       <Compile Remove="Saga\Events\PaymentProcessed.cs" />
     </ItemGroup>
-    
-    <ItemGroup>
-        <Protobuf Include="Integration/Protos/catalog.proto" GrpcService="Client"/>
-    </ItemGroup>
 
     <ItemGroup>
       <PackageReference Include="Google.Protobuf" Version="3.28.3" />
@@ -37,4 +33,7 @@
       </PackageReference>
     </ItemGroup>
 
+    <ItemGroup>
+        <ProjectReference Include="..\..\GrpcContracts\GrpcContracts\GrpcContracts.csproj" />
+    </ItemGroup>
 </Project>

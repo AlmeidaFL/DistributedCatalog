@@ -20,10 +20,21 @@ public class Startup
         services.AddSwaggerGen();
         services.AddGrpcClient<GrpcContracts.CatalogService.CatalogServiceClient>(o =>
         {
+
             o.Address = new Uri(this.configuration["CatalogService:Url"]!);
         });
 
         services.AddTransient<IProductService, ProductService>();
+        
+        services.AddCors(options =>
+        {
+            options.AddPolicy("AllowAll", policy =>
+            {
+                policy.AllowAnyOrigin()  // Permite qualquer origem
+                    .AllowAnyHeader()  // Permite qualquer cabeçalho
+                    .AllowAnyMethod(); // Permite qualquer método (GET, POST, PUT, DELETE, etc.)
+            });
+        });
     }
 
     public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
@@ -57,7 +68,7 @@ public class Startup
             app.UseSwaggerUI();
         }
 
-        app.UseCors();
+        app.UseCors("AllowAll");
         app.UseDefaultFiles();
         app.UseStaticFiles();
 

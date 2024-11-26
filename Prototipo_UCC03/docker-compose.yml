@@ -1,0 +1,36 @@
+version: "3.8"
+services:
+  grpc-service:
+    image: meu-grpc-service
+    build:
+      context: .
+      dockerfile: Dockerfile.Service
+    environment:
+      - ConnectionStrings__DefaultConnection=server=mysql;port=3306;database=catalog;user=root;password=password;
+    ports:
+      - "5001:5001"
+    depends_on:
+      - mysql
+
+  bff:
+    image: meu-bff
+    build:
+      context: .
+      dockerfile: Dockerfile.Bff
+    environment:
+      - CatalogService__Url=http://grpc-service:5001
+    ports:
+      - "5000:8080"
+
+  mysql:
+    image: mysql:8.0
+    environment:
+      MYSQL_ROOT_PASSWORD: password
+      MYSQL_DATABASE: catalog
+    ports:
+      - "3306:3306"
+    volumes:
+      - db-data:/var/lib/mysql
+
+volumes:
+  db-data:

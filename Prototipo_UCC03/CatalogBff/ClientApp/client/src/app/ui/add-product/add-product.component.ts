@@ -16,7 +16,7 @@ export class AddProductComponent {
   public placeholderImage: string = 'https://via.placeholder.com/80';
 
   public productByName = new Map<string, Product>()
-  serverUrl = "http://localhost:4200/api/product"
+  serverUrl = "http://localhost:5203/api/product"
 
   actualPrice: number = 0
   actualName: string = ""
@@ -64,6 +64,8 @@ public async upload() {
         price: product.price,
         image: await toBase64(product.image!.file)
   }}));
+
+  console.log(this.serverUrl);
 
   this.client.post(this.serverUrl, productsArray).subscribe(data => {
       console.log(data);

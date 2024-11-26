@@ -6,3 +6,11 @@ obj/
 riderModule.iml
 /_ReSharper.Caches/
 *.json
+Testepublicacao/
+*.dll
+*.js
+*.dylib
+*.txt
+*.so
+*.pdb
+*.css

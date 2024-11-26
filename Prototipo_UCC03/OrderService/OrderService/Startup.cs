@@ -45,7 +45,7 @@ public class Startup
             
         });
         
-        services.AddGrpcClient<CatalogService.CatalogService.CatalogServiceClient>(o =>
+        services.AddGrpcClient<GrpcContracts.CatalogService.CatalogServiceClient>(o =>
         {
             o.Address = new Uri("https://localhost:5010");
         });

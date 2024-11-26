@@ -11,6 +11,7 @@ service CatalogService {
   rpc GetAllProducts (google.protobuf.Empty) returns (stream Product);
   rpc AddProduct (stream Product) returns (google.protobuf.Empty);
   rpc GetProductsByIds (GetProductsByIdsMessage) returns (stream ProductWithoutImage);
+  rpc ReserveProducts (ReserveProductsMessage) returns (ReservedResult);
 }
 
 message GetProductByIdMessage {
@@ -37,4 +38,13 @@ message ProductWithoutImage {
 
 message Image {
   bytes data = 1;
+}
+
+message ReserveProductsMessage {
+  repeated string productIds = 1;
+}
+
+message ReservedResult {
+  optional string errorMessage = 1;
+  string reservedCartId = 2;
 }

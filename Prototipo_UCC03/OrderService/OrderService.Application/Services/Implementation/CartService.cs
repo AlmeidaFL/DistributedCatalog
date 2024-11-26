@@ -1,13 +1,13 @@
-using CatalogService;
 using Grpc.Core;
+using GrpcContracts;
 using MassTransit.Internals;
 using OrderService.Core;
 using OrderService.Persistence.Repositories;
-using Catalog = CatalogService.CatalogService;
+using Product = OrderService.Core.Product;
 
 namespace OrderService.Application.Services.Implementation;
 
-public class CartService(ICartRepository repository, Catalog.CatalogServiceClient client) : ICartService
+public class CartService(ICartRepository repository, CatalogService.CatalogServiceClient client) : ICartService
 {
     public async Task AddToCart(Cart cart)
     {
@@ -32,5 +32,26 @@ public class CartService(ICartRepository repository, Catalog.CatalogServiceClien
             var productWithoutImages = await call.ResponseStream.ReadAllAsync().ToListAsync();
             return productWithoutImages;
         }
+    }
+
+    public async Task<Guid> ReserveProducts(IReadOnlyList<Product> products)
+    {
+        await Task.Factory.StartNew(() =>
+        {
+            var reservedResult = client.ReserveProducts(new ReserveProductsMessage()
+            {
+                ProductIds = { products.Select(p => p.Id.ToString()) }
+            });
+
+            if (reservedResult.ErrorMessage is not null)
+            {
+                throw new Exception("Error occured while reserving products");
+            }
+            
+            return reservedResult.ReservedCartId;
+        });
+
+        // Should not pass to here
+        return new Guid();
     }
 }

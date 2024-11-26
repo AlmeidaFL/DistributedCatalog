@@ -1,6 +1,6 @@
+using System;
+using System.Threading.Tasks;
 using OrderService.Core;
-using OrderService.Persistence;
-using OrderService.Persistence.Repositories;
 
 namespace OrderService.Application.Services;
 
