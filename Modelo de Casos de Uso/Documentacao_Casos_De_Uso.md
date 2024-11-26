@@ -993,7 +993,301 @@
 ## Notas de Design e Observações
 - O layout das sugestões deve ser visualmente atraente, mas não intrusivo para o comprador.  
 - Devem ser respeitadas as políticas de privacidade e proteção de dados ao gerar sugestões personalizadas.  
-- Anúncios podem incluir promoções de vendedores que investem em campanhas de destaque.  
+- Anúncios podem incluir promoções de vendedores que investem em campanhas de destaque.
 
+---   
+
+# UC-V02: Gerencia Conta Bancária de Recebimento
+
+## Identificação
+**Nome do Caso de Uso:** Gerencia Conta Bancária de Recebimento  
+**ID do Caso de Uso:** UC-V02  
+**Ator Primário:** Vendedor  
+**Atores Secundários:** Banco ou Gateway de Pagamento  
+**Objetivo:** Permitir que o vendedor cadastre, edite ou remova dados da conta bancária para recebimento de valores de vendas.  
+
+## Pré-condições
+- O vendedor deve estar autenticado no sistema.  
+- O vendedor deve possuir uma conta bancária válida.  
+
+## Pós-condições
+- Os dados bancários são atualizados no sistema.  
+- As transferências futuras são realizadas para a conta cadastrada.  
+
+## Fluxo Principal de Ações
+1. O Vendedor acessa a seção de gerenciamento de dados bancários.  
+2. O sistema exibe os dados bancários atuais (se houver).  
+3. O Vendedor escolhe entre cadastrar, editar ou remover uma conta bancária.  
+4. O sistema exibe o formulário correspondente.  
+5. O Vendedor insere ou atualiza os dados e confirma.  
+6. O sistema valida os dados e registra as alterações.  
+7. O sistema exibe uma mensagem de sucesso.  
+
+## Fluxos Alternativos
+
+### Fluxo Alternativo A: Dados Bancários Inválidos
+**Condição de ativação:** Os dados bancários fornecidos não atendem aos critérios de validação (ex.: número de conta inválido).  
+1. O sistema exibe uma mensagem de erro.  
+2. O vendedor corrige os dados.  
+3. O fluxo retorna ao passo 5 do fluxo principal.  
+
+## Requisitos Não Funcionais
+- O sistema deve validar as informações bancárias com o gateway de pagamento em até 5 segundos.  
+
+## Notas de Design e Observações
+- Deve ser garantida a segurança dos dados bancários com criptografia.  
+
+---
+
+# UC-V03: Gerencia Endereço de Coleta
+
+## Identificação
+**Nome do Caso de Uso:** Gerencia Endereço de Coleta  
+**ID do Caso de Uso:** UC-V03  
+**Ator Primário:** Vendedor  
+**Atores Secundários:** Nenhum  
+**Objetivo:** Permitir que o vendedor gerencie os endereços de coleta onde os produtos estarão disponíveis para retirada.  
+
+## Pré-condições
+- O vendedor deve estar autenticado no sistema.  
+- O vendedor deve possuir um cadastro ativo no marketplace.  
+
+## Pós-condições
+- O endereço de coleta é registrado ou atualizado no sistema.  
+- Os compradores visualizam os endereços disponíveis ao finalizar compras.  
+
+## Fluxo Principal de Ações
+1. O Vendedor acessa a seção de endereços de coleta no painel de controle.  
+2. O sistema exibe os endereços cadastrados atualmente (se houver).  
+3. O Vendedor seleciona a opção de adicionar, editar ou remover um endereço.  
+4. O sistema exibe o formulário correspondente:
+   - **Para adicionar:** formulário vazio para preenchimento do endereço.  
+   - **Para editar:** formulário com os dados pré-preenchidos do endereço selecionado.  
+   - **Para remover:** confirmação de exclusão.  
+5. O Vendedor confirma a ação.  
+6. O sistema valida os dados inseridos e registra as alterações.  
+7. O sistema exibe uma mensagem de sucesso.  
+
+## Fluxos Alternativos
+
+### Fluxo Alternativo A: Endereço Inválido
+**Condição de ativação:** O endereço fornecido não é válido (ex.: formato incorreto ou dados ausentes).  
+1. O sistema informa o erro ao vendedor.  
+2. O Vendedor corrige as informações.  
+3. O fluxo retorna ao passo 5 do fluxo principal.  
+
+## Requisitos Não Funcionais
+- O sistema deve validar o endereço em até 3 segundos.  
+- A interface deve ser responsiva para permitir o gerenciamento em dispositivos móveis.  
+
+## Notas de Design e Observações
+- O sistema deve permitir múltiplos endereços de coleta para o mesmo vendedor.  
+- Deve ser possível integrar a validação de endereços com serviços de geolocalização.  
+
+---
+
+# UC-V04: Gerencia Cadastro de Vendedor
+
+## Identificação
+**Nome do Caso de Uso:** Gerencia Cadastro de Vendedor  
+**ID do Caso de Uso:** UC-V04  
+**Ator Primário:** Vendedor  
+**Atores Secundários:** Nenhum  
+**Objetivo:** Permitir que o usuário crie ou edite seu perfil de vendedor no sistema.  
+
+## Pré-condições
+- O usuário deve estar autenticado no sistema.  
+- O cadastro do vendedor deve ser previamente aprovado pelo sistema (quando aplicável).  
+
+## Pós-condições
+- As informações do vendedor são registradas ou atualizadas no sistema.  
+- O vendedor pode acessar funcionalidades exclusivas do perfil.  
+
+## Fluxo Principal de Ações
+1. O usuário acessa a página de cadastro de vendedor.  
+2. O sistema exibe o formulário de registro com campos como:
+   - Nome do vendedor ou empresa  
+   - CNPJ/CPF (quando aplicável)  
+   - Descrição do vendedor  
+   - Dados de contato  
+3. O Vendedor preenche ou atualiza os dados e confirma.  
+4. O sistema valida as informações inseridas.  
+5. O sistema registra as informações no banco de dados.  
+6. O sistema exibe uma mensagem de confirmação.  
+
+## Fluxos Alternativos
+
+### Fluxo Alternativo A: Dados Inválidos
+**Condição de ativação:** As informações inseridas não atendem aos requisitos do sistema (ex.: CNPJ inválido).  
+1. O sistema destaca os campos incorretos e exibe mensagens explicativas.  
+2. O vendedor corrige os dados.  
+3. O fluxo retorna ao passo 4 do fluxo principal.  
+
+## Requisitos Não Funcionais
+- O sistema deve validar CNPJs/CPFs com uma base oficial (ex.: Receita Federal).  
+- O cadastro deve ser processado em até 5 segundos.  
+
+## Notas de Design e Observações
+- Deve ser possível associar um logotipo ou imagem ao perfil do vendedor.  
+- O cadastro deve respeitar as regulamentações locais de proteção de dados.  
+
+---
+
+# UC-V05: Acessa Relatório de Vendas
+
+## Identificação
+**Nome do Caso de Uso:** Acessa Relatório de Vendas  
+**ID do Caso de Uso:** UC-V05  
+**Ator Primário:** Vendedor  
+**Atores Secundários:** Nenhum  
+**Objetivo:** Permitir que o vendedor visualize relatórios detalhados de vendas realizadas no marketplace.  
+
+## Pré-condições
+- O vendedor deve estar autenticado no sistema.  
+- O vendedor deve ter realizado ao menos uma venda no marketplace.  
+
+## Pós-condições
+- O vendedor obtém informações sobre o desempenho de vendas no período selecionado.  
+
+## Fluxo Principal de Ações
+1. O Vendedor acessa a seção de relatórios no painel de controle.  
+2. O sistema solicita que o vendedor selecione um intervalo de datas ou outras opções de filtro.  
+3. O Vendedor define os critérios desejados e confirma.  
+4. O sistema gera e exibe o relatório com dados como:
+   - Número de vendas realizadas  
+   - Valor total das vendas  
+   - Produtos mais vendidos  
+   - Taxas e comissões aplicadas  
+5. O Vendedor pode optar por exportar o relatório em formato PDF ou CSV.  
+
+## Fluxos Alternativos
+
+### Fluxo Alternativo A: Nenhum Registro Encontrado
+**Condição de ativação:** Não há vendas no período selecionado.  
+1. O sistema exibe uma mensagem informando que não há dados disponíveis para o período.  
+
+## Requisitos Não Funcionais
+- O relatório deve ser gerado em até 5 segundos.  
+- O sistema deve permitir exportações sem prejudicar a usabilidade.  
+
+## Notas de Design e Observações
+- O relatório deve ser apresentado com gráficos e tabelas interativas.  
+- Deve ser possível agendar o envio de relatórios periódicos por e-mail.  
+
+---
+
+# UC-V06: Oferece Descontos Promocionais
+
+## Identificação
+**Nome do Caso de Uso:** Oferece Descontos Promocionais  
+**ID do Caso de Uso:** UC-V06  
+**Ator Primário:** Vendedor  
+**Atores Secundários:** Nenhum  
+**Objetivo:** Permitir ao vendedor configurar e oferecer descontos promocionais sobre os produtos no catálogo de embalagens.  
+
+## Pré-condições
+- O vendedor deve estar autenticado no sistema.  
+- O vendedor deve ter produtos cadastrados no catálogo.  
+
+## Pós-condições
+- O desconto promocional é aplicado com sucesso aos produtos selecionados no catálogo.  
+- Os compradores visualizarão os preços com desconto ao acessarem os produtos.  
+
+## Fluxo Principal de Eventos
+1. O Vendedor inicia o caso de uso acessando a opção "Oferecer Descontos Promocionais" no sistema.  
+2. O sistema exibe a lista de produtos disponíveis no catálogo do vendedor.  
+3. O Vendedor seleciona um ou mais produtos para aplicar o desconto.  
+4. O sistema solicita ao Vendedor que insira as condições e o percentual do desconto.  
+5. O Vendedor define o percentual de desconto e as condições (ex: validade do desconto).  
+6. O sistema processa as informações e valida se os dados são consistentes (ex: se a data de validade está no futuro).  
+7. O sistema confirma a aplicação do desconto, atualiza o catálogo e disponibiliza o desconto para os compradores.  
+8. O Vendedor recebe uma confirmação de sucesso da operação.  
+
+## Fluxos Alternativos
+
+### Fluxo Alternativo A: Seleção de Produto Indisponível
+**Condição de Ativação:** O Vendedor tenta aplicar desconto em um produto que está fora de estoque.  
+1. O sistema exibe uma mensagem informando que o produto está indisponível para promoção.  
+2. O fluxo retorna ao passo 2, onde o Vendedor pode selecionar outros produtos.  
+
+### Fluxo Alternativo B: Desconto Percentual Inválido
+**Condição de Ativação:** O Vendedor insere um percentual de desconto inválido (ex: maior que 100% ou negativo).  
+1. O sistema exibe uma mensagem de erro e solicita ao vendedor que insira um valor válido.  
+2. O fluxo retorna ao passo 5 para correção.  
+
+## Fluxos de Exceção
+
+### Exceção 1: Falha no Sistema ao Processar Desconto
+**Condição de Ativação:** Ocorre uma falha técnica ao tentar aplicar o desconto.  
+1. O sistema detecta o erro e exibe uma mensagem de falha ao Vendedor.  
+2. O sistema sugere ao vendedor tentar novamente mais tarde ou entrar em contato com o suporte.  
+3. O caso de uso termina.  
+
+### Exceção 2: Produto Inexistente
+**Condição de Ativação:** O Vendedor tenta aplicar desconto em um produto que foi removido do catálogo.  
+1. O sistema detecta a remoção e notifica o vendedor que o produto não existe mais no catálogo.  
+2. O sistema remove o produto da seleção e retorna ao passo 2.  
+
+## Requisitos Não Funcionais
+- O sistema deve aplicar o desconto e atualizar o catálogo em menos de 2 segundos.  
+- O sistema deve estar disponível 99.9% do tempo para realizar esta operação.  
+- As informações de desconto devem ser propagadas corretamente para os compradores dentro de 5 minutos após a confirmação.  
+
+## Notas de Design e Observações
+- A interface deve ser intuitiva, permitindo fácil navegação entre os produtos do catálogo.  
+- O sistema deve validar todas as entradas de dados, como percentual de desconto e datas.  
+- Devem ser considerados mecanismos de rollback caso ocorra falha ao aplicar descontos em múltiplos produtos simultaneamente.  
+
+---
+
+# UC-V07: Responde Dúvidas de Compradores
+
+## Identificação
+**Nome do Caso de Uso:** Responde Dúvidas de Compradores  
+**ID do Caso de Uso:** UC-V07  
+**Ator Primário:** Usuário Vendedor  
+**Atores Secundários:** Comprador  
+**Objetivo:** Permitir que o vendedor visualize e responda às perguntas dos compradores sobre seus produtos ou serviços.  
+
+## Pré-condições
+- O vendedor deve estar autenticado no sistema.  
+- O comprador deve ter enviado uma dúvida relacionada a um produto ou serviço do vendedor.  
+
+## Pós-condições
+- As respostas são registradas no sistema e disponibilizadas para os compradores.  
+- O comprador recebe uma notificação indicando que sua dúvida foi respondida.  
+
+## Fluxo Principal de Ações
+1. O Vendedor acessa a seção de mensagens ou dúvidas no painel de controle.  
+2. O sistema exibe uma lista com as dúvidas pendentes enviadas pelos compradores.  
+3. O Vendedor seleciona uma dúvida para responder.  
+4. O sistema exibe o histórico da comunicação, se houver.  
+5. O Vendedor insere a resposta no campo de texto e confirma o envio.  
+6. O sistema registra a resposta e a vincula ao histórico da dúvida.  
+7. O sistema notifica o comprador de que sua dúvida foi respondida.  
+
+## Fluxos Alternativos
+
+### Fluxo Alternativo A: Nenhuma Dúvida Pendente
+**Condição de ativação:** Não há dúvidas pendentes para o vendedor responder.  
+1. O sistema exibe uma mensagem indicando que não há perguntas no momento.  
+2. O Vendedor pode optar por visualizar dúvidas respondidas anteriormente.  
+
+## Fluxos de Exceção
+
+### Exceção 1: Erro ao Registrar a Resposta
+**Condição de ativação:** O sistema não consegue registrar a resposta do vendedor (ex.: problema técnico ou de conectividade).  
+1. O sistema exibe uma mensagem de erro ao vendedor.  
+2. O sistema solicita que o vendedor tente novamente.  
+
+## Requisitos Não Funcionais
+- O sistema deve atualizar a lista de dúvidas em tempo real.  
+- As respostas devem ser entregues ao comprador em menos de 5 segundos após o envio.  
+- O histórico de dúvidas e respostas deve ser mantido para referência futura.  
+
+## Notas de Design e Observações
+- A interface deve permitir busca e filtragem de dúvidas por produto, data ou status (pendente, respondida).  
+- O sistema deve oferecer um editor de texto simples para respostas, permitindo a formatação básica (ex.: negrito, itálico).  
+- O vendedor deve poder adicionar links ou anexos (ex.: PDFs ou imagens) às respostas, quando permitido pelas regras do marketplace.  
 
 
