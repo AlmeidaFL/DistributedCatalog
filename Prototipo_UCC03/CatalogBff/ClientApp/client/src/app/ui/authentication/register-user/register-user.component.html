@@ -1,0 +1,91 @@
+<div class="min-h-screen bg-site-backgrond flex items-center justify-center">
+    <div class="w-full max-w-md bg-white rounded-lg shadow-md p-6">
+      <h2 class="text-2xl font-bold text-green-dark mb-4 text-center">Cadastro</h2>
+      <form (ngSubmit)="onSubmit()" [formGroup]="registerForm">
+        <div>
+          <label for="name" class="block text-green-dark font-medium mb-2">Nome</label>
+          <input
+            id="name"
+            type="text"
+            formControlName="name"
+            class="w-full border border-green-dark-opac rounded-lg px-3 py-2"
+            placeholder="Seu nome completo"
+          />
+        </div>
+        @if(registerForm.controls['name'].invalid){
+          <small class="text-red-500">Pelo menos 3 caracteres</small>
+        }
+        <div class="mt-4">
+          <label for="email" class="block text-green-dark font-medium mb-2">Email</label>
+          <input
+            id="email"
+            type="email"
+            formControlName="email"
+            class="w-full border border-green-dark-opac rounded-lg px-3 py-2"
+            placeholder="Seu email"
+          />
+        </div>
+        @if(registerForm.controls['email'].invalid){
+          <small class="text-red-500">Email inválido</small>
+        }
+        <div class="mt-4">
+          <label for="password" class="block text-green-dark font-medium mb-2">Senha</label>
+          <input
+            id="password"
+            type="password"
+            formControlName="password"
+            class="w-full border border-green-dark-opac rounded-lg px-3 py-2"
+            placeholder="Senha"
+          />
+        </div>
+        @if(registerForm.controls['password'].invalid){
+          <small class="text-red-500">Minimo de 10 caracteres</small>
+        }
+        <div class="mt-4">
+          <label for="phone" class="block text-green-dark font-medium mb-2">Telefone</label>
+          <input
+            id="phone"
+            type="text"
+            formControlName="phone"
+            class="w-full border border-green-dark-opac rounded-lg px-3 py-2"
+            placeholder="(XX) XXXXX-XXXX"
+          />
+        </div>
+        @if(registerForm.controls['phone'].invalid){
+            <small class="text-red-500">Formato inválido</small>
+        }
+        <div class="mt-4">
+          <label for="cnpj" class="block text-green-dark font-medium mb-2">CNPJ</label>
+          <input
+            id="cnpj"
+            type="text"
+            formControlName="cnpj"
+            class="w-full border border-green-dark-opac rounded-lg px-3 py-2"
+            placeholder="XX.XXX.XXX/XXXX-XX"
+          />
+        </div>
+        @if(registerForm.controls['cnpj'].invalid){
+          <small class="text-red-500">Formato inválido</small>
+        }
+
+        <div class="flex items-center space-x-4 m-5">
+          <label for="isVendor" class="text-brown">Você vai vender algo aqui?</label>
+          <input 
+            id="isVendor" 
+            type="checkbox" 
+            class="toggle-checkbox appearance-none h-6 w-6 rounded-full bg-gray-300 checked:bg-green-life cursor-pointer transition-colors"
+            formControlName="isVendor" 
+          />
+        </div>
+        
+        <button
+          type="submit"
+          class="w-full bg-green-dark text-product-list-background font-bold py-2 px-4 rounded-lg hover:bg-green-dark-opac"
+        >
+          Registrar
+        </button>
+      </form>
+      
+    </div>
+  </div>
+  

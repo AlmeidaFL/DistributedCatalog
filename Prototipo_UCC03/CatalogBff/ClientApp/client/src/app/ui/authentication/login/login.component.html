@@ -1,0 +1,58 @@
+<div class="flex items-center justify-center min-h-screen bg-site-backgrond">
+    <div class="bg-white p-6 rounded-lg shadow-lg w-96">
+      <!-- Logo do Marketplace -->
+      <div class="flex justify-center mb-6">
+        <img src="assets/logo.png" alt="Logo do Marketplace" class="w-24" />
+      </div>
+  
+      <!-- Formulário de Login -->
+      <form (ngSubmit)="login()">
+        <!-- Email -->
+        <div class="mb-4">
+          <label for="email" class="block text-brown font-semibold">Email</label>
+          <input
+            id="email"
+            type="email"
+            [(ngModel)]="email"
+            name="email"
+            required
+            class="w-full px-4 py-2 mt-2 border rounded-md border-green-dark-opac focus:ring-2 focus:ring-green-dark"
+          />
+        </div>
+  
+        <!-- Senha -->
+        <div class="mb-6">
+          <label for="password" class="block text-brown font-semibold">Senha</label>
+          <input
+            id="password"
+            type="password"
+            [(ngModel)]="password"
+            name="password"
+            required
+            class="w-full px-4 py-2 mt-2 border rounded-md border-green-dark-opac focus:ring-2 focus:ring-green-dark"
+          />
+        </div>
+  
+        <!-- Botões de Login e Registro -->
+        <div class="flex justify-between items-center">
+          <!-- Botão Registrar-se -->
+          <button
+            type="button"
+            [routerLink]="['/register']"
+            class="bg-green-life text-brown hover:bg-green-dark hover:text-white transition py-2 px-6 rounded-md"
+          >
+            Registrar-se
+          </button>
+  
+          <!-- Botão Login -->
+          <button
+            type="submit"
+            class="bg-green-dark text-white hover:bg-green-dark-opac transition py-2 px-6 rounded-md"
+          >
+            Login
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+  

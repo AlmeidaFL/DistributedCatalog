@@ -8,4 +8,9 @@ public static class StringExtensions
 
         return Convert.FromBase64String(base64Data);
     }
+    
+    public static string AddImageExtension(this string image)
+    {
+        return "data:image/jpeg;base64," + image;
+    }
 }

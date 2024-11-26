@@ -8,10 +8,18 @@ package product;
 
 service CatalogService {
   rpc GetProductById (GetProductByIdMessage) returns (Product);
+  rpc GetProductHeaderById (GetProductByIdMessage) returns (ProductWithoutImage);
   rpc GetAllProducts (google.protobuf.Empty) returns (stream Product);
   rpc AddProduct (stream Product) returns (google.protobuf.Empty);
-  rpc GetProductsByIds (GetProductsByIdsMessage) returns (stream ProductWithoutImage);
+  rpc GetProductsByIdsWithoutImage (GetProductsByIdsMessage) returns (stream ProductWithoutImage);
+  rpc GetProductsByIds (GetProductsByIdsMessage) returns (stream Product);
   rpc ReserveProducts (ReserveProductsMessage) returns (ReservedResult);
+  rpc UnreserveProducts (CustomerId) returns (ReservedResult);
+  rpc GetProductsBy(SearchTerm) returns (stream Product);
+}
+
+message SearchTerm {
+  string value = 1;
 }
 
 message GetProductByIdMessage {
@@ -27,6 +35,10 @@ message Product {
   double price = 2;
   string description = 3;
   Image image = 4;
+  repeated string categories = 5;
+  string vendorId = 6;
+  int32 stockQuantity = 7;
+  string id = 8;
 }
 
 message ProductWithoutImage {
@@ -34,6 +46,9 @@ message ProductWithoutImage {
   string name = 2;
   double price = 3;
   string description = 4;
+  repeated string categories = 5;
+  string vendorId = 6;
+  int32 stockQuantity = 7;
 }
 
 message Image {
@@ -41,10 +56,20 @@ message Image {
 }
 
 message ReserveProductsMessage {
-  repeated string productIds = 1;
+  repeated ProductX reservedProducts = 1;
+  string customerId = 2;
+
+  message ProductX {
+    string productId = 1;
+    double quantity = 2;
+  }
 }
 
 message ReservedResult {
-  optional string errorMessage = 1;
-  string reservedCartId = 2;
+  optional string message = 1;
+  bool isError = 2;
+}
+
+message CustomerId {
+  string CustomerId = 1;
 }

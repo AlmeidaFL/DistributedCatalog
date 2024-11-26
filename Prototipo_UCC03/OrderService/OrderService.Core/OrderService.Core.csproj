@@ -10,4 +10,13 @@
       <Compile Remove="Class1.cs" />
     </ItemGroup>
 
+    <ItemGroup>
+      <Reference Include="Microsoft.EntityFrameworkCore.Abstractions">
+        <HintPath>..\..\..\..\..\..\..\.nuget\packages\microsoft.entityframeworkcore.abstractions\8.0.2\lib\net8.0\Microsoft.EntityFrameworkCore.Abstractions.dll</HintPath>
+      </Reference>
+      <Reference Include="MongoDB.Bson">
+        <HintPath>..\..\..\..\..\..\..\.nuget\packages\mongodb.bson\3.0.0\lib\net6.0\MongoDB.Bson.dll</HintPath>
+      </Reference>
+    </ItemGroup>
+
 </Project>

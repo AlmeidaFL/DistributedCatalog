@@ -1,0 +1,63 @@
+syntax = "proto3";
+
+option csharp_namespace = "GrpcContracts.Register";
+
+service RegisterService {
+  rpc Register (UserRegister) returns (Result);
+  rpc Login (UserLogin) returns (Result);
+  rpc GetDeliveryAddresses (UserId) returns (DeliveryRepeated);
+  rpc GetPaymentOptions (UserId) returns (PaymentRepeated);
+  rpc AddDeliveryAddress (DeliveryAddress) returns (DeliveryRepeated);
+  rpc AddPaymentCards (PaymentCard) returns (PaymentRepeated);
+}
+message UserId {
+  string userId = 1;
+}
+
+message Result {
+  string message = 1;
+  UserRegister user = 2;
+  bool isError = 3;
+}
+
+message UserLogin {
+  string email = 1;
+  string password = 2;
+}
+
+message UserRegister {
+  string name = 1;
+  string email = 2;
+  string password = 3;
+  string telephone = 4;
+  string cnpj = 5;
+  string role = 6;
+  optional string id = 7;
+}
+
+message DeliveryRepeated {
+  repeated DeliveryAddress addresses = 1;
+}
+
+message DeliveryAddress {
+  optional string id = 1;
+  string street = 2;
+  string city = 3;
+  string state = 4;
+  string zipCode = 5;
+  string userId = 6;
+  string number = 7;
+}
+
+message PaymentRepeated {
+  repeated PaymentCard cards = 1;
+}
+
+message PaymentCard {
+  optional string id = 1;
+  string number = 2;
+  string cvv = 3;
+  string userId = 4;
+  int32 validUntilMonth = 5;
+  int32 validUntilYear = 6;
+}

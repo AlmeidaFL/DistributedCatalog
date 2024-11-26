@@ -1,0 +1,47 @@
+syntax = "proto3";
+
+option csharp_namespace = "GrpcContracts.Order";
+
+service OrderService {
+    rpc GetOrderInformation (OrderId) returns (OrderInformation);
+    rpc GetOrders (CustomerId) returns (OrderInformationRepeated);
+}
+
+message OrderId {
+  string orderId = 1;
+}
+
+message CustomerId {
+  string customerId = 1;
+}
+
+message OrderInformationRepeated {
+  string customerId = 1;
+  repeated OrderInformation orders = 2;
+}
+
+message OrderInformation {
+  string id = 9;
+  double shipmentFee = 1;
+  double totalCart = 2;
+  string status = 3;
+  string shipmentId = 4;
+  string paymentOptionId = 5;
+  repeated Product product = 6;
+  Address address = 7;
+  string paymentId = 8;
+}
+
+message Address {
+  string street = 1;
+  string city = 2;
+  string state = 3;
+  string zip_code = 4;
+  string number = 5;
+}
+
+message Product {
+  string id = 1;
+  double quantity = 4;
+  double price = 5;
+}

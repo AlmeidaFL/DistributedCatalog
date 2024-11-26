@@ -1,0 +1,9 @@
+  <!-- Product List -->
+  <div class="flex flex-wrap justify-center gap-4 p-6">
+    @for (product of products; track product.id) {
+      <product-card
+      [product]="product">
+
+      </product-card>
+    }
+  </div>

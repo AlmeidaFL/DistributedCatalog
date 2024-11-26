@@ -1,0 +1,63 @@
+<div class="bg-green-dark text-white flex items-center justify-between py-4 px-10 shadow-md relative">
+    <!-- Logo -->
+    <div>
+        <a class="flex items-center" [routerLink]="['/']">
+            <img src="/assets/logo-removebg.png" alt="Marketplace Logo" class="h-14 mr-4">
+            <span class="text-xl font-bold">JBL Embalagens</span>
+        </a>
+    </div>
+  
+    <!-- Search Bar -->
+    <div class="mx-auto max-w-2xl flex-grow">
+        <input
+          type="text"
+          placeholder="Buscar produtos..."
+          class="w-full rounded-lg px-4 py-2 border border-green-dark-opac text-gray-800"
+        />
+      </div>
+      
+  
+      <div class="flex items-center space-x-6">
+        <!-- User Icon -->
+        <div title="Menu do usuário" (click)="onUserIconClick()" class="cursor-pointer text-green-life">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" width="24" viewBox="0 0 448 512">
+            <path d="M224 256A128 128 0 1 0 224 0a128 128 0 1 0 0 256zm-45.7 48C79.8 304 0 383.8 0 482.3C0 498.7 13.3 512 29.7 512l388.6 0c16.4 0 29.7-13.3 29.7-29.7C448 383.8 368.2 304 269.7 304l-91.4 0z"/>
+          </svg>
+        </div>
+      
+        @if (!isVendor) {
+          <div
+          [routerLink]="['/cart']"
+          title="Ver carrinho"
+          class="relative cursor-pointer text-green-life"
+          [class.pointer-events-none]="!isAuthenticated"
+          [class.opacity-50]="!isAuthenticated"
+          (click)="goToCart.emit()"
+        >
+          <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" width="28" viewBox="0 0 576 512">
+            <path
+              d="M0 24C0 10.7 10.7 0 24 0L69.5 0c22 0 41.5 12.8 50.6 32l411 0c26.3 0 45.5 25 38.6 50.4l-41 152.3c-8.5 31.4-37 53.3-69.5 53.3l-288.5 0 5.4 28.5c2.2 11.3 12.1 19.5 23.6 19.5L488 336c13.3 0 24 10.7 24 24s-10.7 24-24 24l-288.3 0c-34.6 0-64.3-24.6-70.7-58.5L77.4 54.5c-.7-3.8-4-6.5-7.9-6.5L24 48C10.7 48 0 37.3 0 24zM128 464a48 48 0 1 1 96 0 48 48 0 1 1 -96 0zm336-48a48 48 0 1 1 0 96 48 48 0 1 1 0-96z"
+            ></path>
+          </svg>
+          <span
+            *ngIf="cartCount > 0"
+            class="absolute -top-2 -right-2 bg-red-500 text-white text-xs font-bold w-5 h-5 flex items-center justify-center rounded-full"
+          >
+            {{ cartCount }}
+          </span>
+        </div>
+        
+        }
+              
+        @if (isVendor) {
+            <!-- Vendor catalog add Icon -->
+            <div 
+            [class.pointer-events-none]="!isAuthenticated"
+            [class.opacity-50]="!isAuthenticated"
+            title="Adicionar ao catálogo" (click)="onAddProductIconClick()" class="cursor-pointer text-green-life">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" width="28" viewBox="0 0 448 512"><!--!Font Awesome Free 6.7.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.--><path d="M256 80c0-17.7-14.3-32-32-32s-32 14.3-32 32l0 144L48 224c-17.7 0-32 14.3-32 32s14.3 32 32 32l144 0 0 144c0 17.7 14.3 32 32 32s32-14.3 32-32l0-144 144 0c17.7 0 32-14.3 32-32s-14.3-32-32-32l-144 0 0-144z"/></svg>
+            </div>
+        }
+      </div>
+  </div>
+  

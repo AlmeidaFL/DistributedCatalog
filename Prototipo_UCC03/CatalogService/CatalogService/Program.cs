@@ -1,3 +1,5 @@
+using Microsoft.AspNetCore.Server.Kestrel.Core;
+
 namespace CatalogService;
 
 public class Program
@@ -11,12 +13,24 @@ public class Program
         Host.CreateDefaultBuilder(args)
             .ConfigureWebHostDefaults(webBuilder =>
             {
-                webBuilder.ConfigureKestrel((context, options) =>
-                {
-                    var port = int.Parse(context.Configuration["Kestrel:Port"]!);
-                    options.ListenLocalhost(port);
-                });
-                
                 webBuilder.UseStartup<Startup>();
+
+                var config = new ConfigurationBuilder()
+                    .AddJsonFile("appsettings.json")
+                    .Build();
+
+                var url = config["Services:CatalogService:Url"];
+
+                if (!string.IsNullOrEmpty(url))
+                {
+                    var addressParts = url.Split(':');
+                    var host = addressParts[0];
+                    var port = int.Parse(addressParts[1]);
+
+                    webBuilder.UseKestrel(options =>
+                    {
+                        options.Listen(System.Net.IPAddress.Parse(host), port);
+                    });
+                }
             });
 }

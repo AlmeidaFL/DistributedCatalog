@@ -17,20 +17,18 @@
 
     <ItemGroup>
       <ProjectReference Include="..\OrderService.Core\OrderService.Core.csproj" />
+      <ProjectReference Include="..\OrderService.Integration\OrderService.Integration.csproj" />
       <ProjectReference Include="..\OrderService.Persistence\OrderService.Persistence.csproj" />
     </ItemGroup>
 
     <ItemGroup>
-      <Compile Remove="Saga\Events\PaymentProcessed.cs" />
-    </ItemGroup>
-
-    <ItemGroup>
       <PackageReference Include="Google.Protobuf" Version="3.28.3" />
-      <PackageReference Include="Grpc.Net.Client" Version="2.66.0" />
+      <PackageReference Include="Grpc.Net.Client" Version="2.67.0" />
       <PackageReference Include="Grpc.Tools" Version="2.67.0">
         <PrivateAssets>all</PrivateAssets>
         <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
       </PackageReference>
+      <PackageReference Include="MassTransit" Version="8.3.0" />
     </ItemGroup>
 
     <ItemGroup>

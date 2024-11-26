@@ -1,0 +1,22 @@
+<div
+class="bg-white border rounded-lg shadow-md p-4 max-w-xs w-full"
+>
+<a [routerLink]="['/product', product?.id]">
+    <!-- Product Image -->
+    <img 
+    [src]="product?.image" 
+    [alt]="product?.name" 
+    class="h-60 w-60 mx-auto object-cover rounded-md mb-2">
+  
+    <!-- Product Details -->
+    <h3 class="text-lg font-bold text-gray-800">{{ product?.name }}</h3>
+</a>
+<p class="text-green-dark text-xl font-semibold">{{ product?.price | currency:'BRL':'symbol':'1.2-2' }}</p>
+<!-- Add to Cart Button -->
+<button
+  (click)="addToCart(product!.id)"
+  class="mt-2 w-full bg-green-life text-black hover:text-white p-2 rounded-lg hover:bg-green-dark transition"
+>
+  Adicionar ao carrinho
+</button>
+</div>

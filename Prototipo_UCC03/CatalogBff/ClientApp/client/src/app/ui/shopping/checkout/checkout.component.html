@@ -1,0 +1,123 @@
+<div class="min-h-screen bg-site-backgrond flex flex-col md:flex-row gap-6 p-6">
+  <!-- Coluna Esquerda: Informações do Usuário -->
+  <div class="flex-1 bg-white rounded-lg shadow-md p-6 overflow-y-auto">
+    <h2 class="text-2xl font-bold text-green-dark mb-4">Informações do Usuário</h2>
+    <p class="text-brown">Nome: {{ user.name }}</p>
+    <p class="text-brown">Email: {{ user.email }}</p>
+    <p class="text-brown">Telefone: {{ user.phone }}</p>
+    <p class="text-brown">CNPJ: {{ user.cnpj }}</p>
+
+    <div class="mt-6">
+      <h3 class="text-lg font-bold text-green-dark flex justify-between items-center">
+        Endereços de Entrega
+        <button
+          class="text-sm bg-green-dark text-white font-bold py-1 px-3 rounded hover:bg-green-dark-opac"
+          (click)="toggleAddressModal()"
+        >
+          + Adicionar
+        </button>
+      </h3>
+      <ul class="mt-4">
+        @for (address of addresses; track $index) {
+          <li
+            (click)="selectAddress(address)"
+            [class.border-green-dark]="selectedAddress?.id === address.id"
+            class="border p-3 rounded-lg hover:bg-green-dark-opac cursor-pointer transition mb-2"
+          >
+            {{ address.street }}, {{ address.city }}, {{ address.state }} - {{ address.zipCode }}
+          </li>
+        }
+      </ul>
+    </div>
+
+    <div class="mt-6">
+      <h3 class="text-lg font-bold text-green-dark flex justify-between items-center">
+        Cartões de Pagamento
+        <button
+          class="text-sm bg-green-dark text-white font-bold py-1 px-3 rounded hover:bg-green-dark-opac"
+          (click)="toggleCardModal()"
+        >
+          + Adicionar
+        </button>
+      </h3>
+      <ul class="mt-4">
+        @for(card of cards; track $index){
+          <li
+          (click)="selectCard(card)"
+          [class.border-green-dark]="selectedCard === card"
+          class="border p-3 rounded-lg hover:bg-green-dark-opac cursor-pointer transition mb-2"
+        >
+          {{ card.number }}
+        </li>
+        }
+      </ul>
+    </div>
+  </div>
+
+  <div class="w-full md:w-1/2 bg-white rounded-lg shadow-md p-6">
+    <h2 class="text-2xl font-bold text-green-dark mb-4">Resumo do Pedido</h2>
+    <ul class="space-y-4">
+      @for (product of cart.products; track $index) {
+        <li class="flex items-center gap-4">
+          <img
+            [src]="product.image"
+            alt="{{ product.name }}"
+            class="w-20 h-20 object-cover rounded-md border border-brown"
+          />
+          <div class="flex-grow">
+            <p class="text-lg font-bold text-green-dark">{{ product.name }}</p>
+            <p class="text-brown">Quantidade: {{ product.quantity }}</p>
+            <p class="text-green-dark-opac">R$ {{ product.price.toFixed(2) }}</p>
+          </div>
+        </li>
+      }
+    </ul>
+    <div class="mt-6">
+      <h3 class="text-lg font-bold text-green-dark flex justify-between items-center">
+        Frete
+      </h3>
+      <p class="border p-3 rounded-lg">{{ shipmentFee | currency:'BRL':'symbol':'1.2-2'  }}</p>
+    </div>
+    <div class="mt-6 text-right">
+      <p class="text-lg font-bold">Total: R$ {{ cartTotal }}</p>
+      <button
+        class="mt-4 bg-green-life text-white font-bold py-3 px-6 rounded-lg hover:bg-green-dark hover:text-white transition"
+      >
+        Finalizar Pedido
+      </button>
+    </div>
+  </div>
+
+  <div *ngIf="isAddressModalOpen" class="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
+    <div class="bg-white p-6 rounded-lg shadow-lg w-96">
+      <h3 class="text-xl font-bold text-green-dark mb-4">Adicionar Novo Endereço</h3>
+      <form (ngSubmit)="addAddress()" class="flex flex-col gap-3">
+        <input type="text" [(ngModel)]="newAddress.street" placeholder="Rua" name="street" class="input-field" />
+        <input type="text" [(ngModel)]="newAddress.city" placeholder="Cidade" name="city" class="input-field" />
+        <input type="text" [(ngModel)]="newAddress.state" placeholder="Estado" name="state" class="input-field" />
+        <input type="text" [(ngModel)]="newAddress.zipCode" placeholder="CEP" name="zipCode" class="input-field" />
+        <input type="text" [(ngModel)]="newAddress.number" placeholder="Número" name="number" class="input-field" />
+        <div class="flex justify-between mt-4">
+          <button type="button" class="btn-secondary" (click)="toggleAddressModal()">Cancelar</button>
+          <button type="submit" class="btn-primary">Adicionar</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <div *ngIf="isCardModalOpen" class="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
+    <div class="bg-white p-6 rounded-lg shadow-lg w-96">
+      <h3 class="text-xl font-bold text-green-dark mb-4">Adicionar Novo Cartão</h3>
+      <form (ngSubmit)="addCard()" class="flex flex-col gap-3">
+        <input type="text" [(ngModel)]="newCard.number" placeholder="Número do Cartão" name="number" class="input-field" />
+        <input type="text" [(ngModel)]="newCard.cvv" placeholder="CVV" name="cvv" class="input-field" />
+        <input type="text" [(ngModel)]="newCard.validUntiLYear" placeholder="Válido até o ano" name="validUntiLYear" class="input-field" />
+        <input type="text" [(ngModel)]="newCard.validUntilMonth" placeholder="Válido até o mês" name="validUntilMonth" class="input-field" />
+        <div class="flex justify-between mt-4">
+          <button type="button" class="btn-secondary" (click)="toggleCardModal()">Cancelar</button>
+          <button type="submit" class="btn-primary">Adicionar</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

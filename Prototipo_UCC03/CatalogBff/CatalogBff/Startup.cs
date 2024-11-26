@@ -1,6 +1,7 @@
 using System.Text;
 using CatalogBff.Integration;
 using CatalogBff.Integration.Implementation;
+using MassTransit;
 
 namespace CatalogBff;
 
@@ -18,14 +19,45 @@ public class Startup
         services.AddControllers();
         services.AddEndpointsApiExplorer();
         services.AddSwaggerGen();
+
+        services.AddMassTransit(x =>
+        {
+            x.UsingRabbitMq((context, cfg) =>
+            {
+                cfg.Host("rabbitmq://localhost", h =>
+                {
+                    h.Username("guest");
+                    h.Password("guest");
+                });
+            });
+        });
+
         services.AddGrpcClient<GrpcContracts.CatalogService.CatalogServiceClient>(o =>
         {
 
-            o.Address = new Uri(this.configuration["CatalogService:Url"]!);
+            o.Address = new Uri(this.configuration["Services:CatalogService:Url"]!);
+        });
+
+        services.AddGrpcClient<GrpcContracts.Register.RegisterService.RegisterServiceClient>(o =>
+        {
+            o.Address = new Uri(this.configuration["Services:RegisterService:Url"]!);
+        });
+
+        services.AddGrpcClient<GrpcContracts.Cart.CartServiceGrpc.CartServiceGrpcClient>(o =>
+        {
+            o.Address = new Uri(this.configuration["Services:OrderService:Url"]!);
+        });
+
+        services.AddGrpcClient<GrpcContracts.Order.OrderService.OrderServiceClient>(o =>
+        {
+            o.Address = new Uri(this.configuration["Services:OrderService:Url"]!);
         });
 
         services.AddTransient<IProductService, ProductService>();
-        
+        services.AddTransient<IRegisterService, RegisterService>();
+        services.AddTransient<ICartService, CartService>();
+        services.AddTransient<IOrderService, CatalogBff.Integration.Implementation.OrderService>();
+
         services.AddCors(options =>
         {
             options.AddPolicy("AllowAll", policy =>
@@ -39,29 +71,6 @@ public class Startup
 
     public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
     {
-        // app.Use(async (context, next) =>
-        // {
-        //     // Log da requisição
-        //     Console.WriteLine($"Request: {context.Request.Method} {context.Request.Path}");
-        //
-        //     // Log do corpo da requisição (se necessário)
-        //     if (context.Request.ContentLength > 0)
-        //     {
-        //         context.Request.EnableBuffering(); // Necessário para ler o corpo da requisição mais de uma vez
-        //         using (var reader = new StreamReader(context.Request.Body, Encoding.UTF8, leaveOpen: true))
-        //         {
-        //             var body = await reader.ReadToEndAsync();
-        //             Console.WriteLine($"Request Body: {body}");
-        //             context.Request.Body.Position = 0; // Reinicia a posição para que outros middlewares possam ler o corpo
-        //         }
-        //     }
-        //
-        //     await next.Invoke();
-        //
-        //     // Log da resposta
-        //     Console.WriteLine($"Response: {context.Response.StatusCode}");
-        // });
-
         if (env.IsDevelopment())
         {
             app.UseSwagger();

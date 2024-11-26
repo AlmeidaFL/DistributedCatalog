@@ -1,0 +1,68 @@
+<div *ngIf="isLoading" class="text-center text-gray-500">Carregando...</div>
+<div *ngIf="errorMessage" class="text-center text-red-500">{{ errorMessage }}</div>
+
+<div *ngIf="product" class="p-6 max-w-4xl mx-auto bg-site-backgrond shadow-md rounded-lg">
+  <!-- Contêiner Principal -->
+  <div class="flex flex-col md:flex-row gap-6">
+    <!-- Imagem do Produto -->
+    <div class="flex-shrink-0">
+      <img
+        [src]="product.image"
+        [alt]="product.name"
+        class="w-64 h-64 object-cover rounded-md border border-brown"
+      />
+    </div>
+  
+    <!-- Informações do Produto -->
+    <div class="flex-grow">
+      <!-- Nome e Preço -->
+      <div class="flex items-center place-content-between gap-6 mb-6">
+        <!-- Nome do Produto -->
+        <h1 class="break-all text-3xl font-bold text-green-dark">{{ product.name }}</h1>
+        <!-- Preço -->
+        <p class="text-white text-3xl font-bold">
+          {{ product.price | currency:'BRL':'symbol':'1.2-2' }}
+        </p>
+      </div>
+  
+      <!-- Descrição -->
+      <h2 class="text-lg font-semibold text-green-dark-opac mb-2">Descrição:</h2>
+      <p class="text-brown break-all mb-4">{{ product.description }}</p>
+  
+      <!-- Categorias -->
+      <h2 class="text-lg font-semibold text-green-dark-opac mb-2">Categorias:</h2>
+      <ul class="list-disc pl-5 text-brown mb-4">
+        <li class="break-all" *ngFor="let category of product.categories">{{ category }}</li>
+      </ul>
+  
+      <!-- Campo de Quantidade e Botão -->
+      <div class="flex items-center justify-between mt-4">
+        <!-- Campo de Quantidade -->
+        <div class="flex items-center gap-2">
+          <label for="quantity" class="text-brown font-medium">Quantidade:</label>
+          <input
+            id="quantity"
+            type="number"
+            min="1"
+            max="{{product.stockQuantity}}"
+            [(ngModel)]="quantity"
+            class="w-20 px-2 py-1 border border-green-dark-opac rounded-md text-gray-800"
+          />
+        </div>
+
+        <p class="text-brown">Disponibilidade: {{product.stockQuantity}}</p>
+  
+        <!-- Botão de Comprar -->
+        <div class="flex justify-end w-full md:w-auto">
+          <button
+            (click)="addToCart(product, quantity)"
+            class="bg-green-life text-brown hover:text-white px-6 py-2 rounded-lg hover:bg-green-dark transition"
+          >
+            Adicionar ao Carrinho
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+</div>

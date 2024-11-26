@@ -1,6 +1,8 @@
-namespace OrderService.Application;
+namespace OrderService.Application.Saga.Events;
 
-public interface PaymentProcessed
+public record PaymentProcessed
 {
-    public Guid OrderId { get; init; }
+    public Guid PaymentId { get; init; }
+    public Guid OrderId { get; init;  }
+    public Guid CorrelationId { get; init;  }
 }

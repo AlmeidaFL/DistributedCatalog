@@ -1,0 +1,92 @@
+Server Software:        Kestrel
+Server Hostname:        127.0.0.1
+Server Port:            5003
+
+Document Path:          /api/cart/08dd1268-cfb8-4ede-894c-777840daec2c
+Document Length:        4061 bytes
+
+Concurrency Level:      10
+Time taken for tests:   2.191 seconds
+Complete requests:      1000
+Failed requests:        0
+Total transferred:      4200000 bytes
+HTML transferred:       4061000 bytes
+Requests per second:    456.50 [#/sec] (mean)
+Time per request:       21.906 [ms] (mean)
+Time per request:       2.191 [ms] (mean, across all concurrent requests)
+Transfer rate:          1872.35 [Kbytes/sec] received
+
+Connection Times (ms)
+              min  mean[+/-sd] median   max
+Connect:        0    0   0.1      0       1
+Processing:    14   21  10.1     20     120
+Waiting:       14   21  10.1     19     119
+Total:         14   21  10.2     20     120
+
+ O teste foi realizado com 10 conexões simultâneas e 1000 requisições totais, sendo que todas as requisições foram concluídas com sucesso (sem falhas). O tempo total do teste foi de 2.191 segundos, com uma média de 456.5 requisições por segundo. O tempo médio para processar cada requisição foi de 21.9 ms, e, quando considerado o tempo total para todas as requisições simultâneas, o tempo médio por requisição foi de 2.191 ms.
+
+A transferência de dados foi boa, com uma taxa de 1872.35 Kbytes por segundo recebidos. Os tempos de conexão foram muito rápidos, com a maior parte das conexões sendo feitas em 0 ms. O tempo de processamento variou entre 14 ms e 120 ms, com uma média de 21 ms. O tempo total, que inclui a conexão e o processamento, variou entre 14 ms e 120 ms, com uma média de 21 ms.
+
+Server Software:        Kestrel
+Server Hostname:        127.0.0.1
+Server Port:            5003
+
+Document Path:          /api/cart/08dd1268-cfb8-4ede-894c-777840daec2c
+Document Length:        4061 bytes
+
+Concurrency Level:      100
+Time taken for tests:   13.630 seconds
+Complete requests:      10000
+Failed requests:        0
+Total transferred:      42000000 bytes
+HTML transferred:       40610000 bytes
+Requests per second:    733.68 [#/sec] (mean)
+Time per request:       136.300 [ms] (mean)
+Time per request:       1.363 [ms] (mean, across all concurrent requests)
+Transfer rate:          3009.22 [Kbytes/sec] received
+
+Connection Times (ms)
+              min  mean[+/-sd] median   max
+Connect:        0    1   1.5      1      11
+Processing:    19  134  54.1    129     368
+Waiting:       19  132  53.6    127     367
+Total:         20  135  54.1    130     371
+
+Foram feitas 10.000 requisições com 100 conexões simultâneas, todas completadas com sucesso (sem falhas). O tempo total do teste foi de 13.630 segundos, com uma média de 733.68 requisições por segundo. O tempo médio para processar cada requisição foi de 136.3 ms, e quando todas as requisições simultâneas foram consideradas, o tempo médio por requisição foi de apenas 1.363 ms.
+
+A quantidade total de dados transferidos foi de 42 MB, com uma taxa de transferência de 3009.22 Kbytes por segundo. A conexão foi bastante rápida, com o tempo mínimo de conexão sendo 0 ms e a média de 1 ms. O tempo de processamento das requisições variou entre 19 ms e 368 ms, com a média sendo 134 ms. O tempo total de cada requisição (incluindo a conexão e o processamento) variou de 20 ms a 371 ms, com a média sendo de 135 ms.
+
+Requests per second: 733.68 – Este é um bom número, indicando que o servidor consegue processar 733 requisições por segundo. Para um endpoint simples, isso é eficiente.
+Time per request: 136.3 ms – Isso significa que, em média, cada requisição levou 136.3 milissegundos para ser processada. Para um endpoint REST simples, esse tempo é bom, considerando uma carga de 100 conexões simultâneas.
+
+Server Software:        Kestrel
+Server Hostname:        127.0.0.1
+Server Port:            5003
+
+Document Path:          /api/product/all
+Document Length:        999623 bytes
+
+Concurrency Level:      10
+Time taken for tests:   11.749 seconds
+Complete requests:      1000
+Failed requests:        0
+Total transferred:      999762000 bytes
+HTML transferred:       999623000 bytes
+Requests per second:    85.11 [#/sec] (mean)
+Time per request:       117.489 [ms] (mean)
+Time per request:       11.749 [ms] (mean, across all concurrent requests)
+Transfer rate:          83099.81 [Kbytes/sec] received
+
+Connection Times (ms)
+              min  mean[+/-sd] median   max
+Connect:        0    0   0.1      0       1
+Processing:    59  117  21.7    115     232
+Waiting:       54  115  21.2    113     226
+Total:         59  117  21.7    115     233
+
+
+O teste de carga para o endpoint /api/product/all mostrou que o servidor Kestrel processou 1000 requisições com 10 conexões simultâneas em 11.749 segundos, com 85.11 requisições por segundo em média. O tempo médio de resposta foi de 117.5 ms por requisição, o que é aceitável, mas pode ser otimizado dependendo da carga esperada. A taxa de transferência foi 83 MB por segundo, indicando boa capacidade de enviar dados.
+
+A conexão foi rápida, com tempos de conexão variando de 0 ms a 1 ms. O tempo de processamento variou de 59 ms a 232 ms, com a média sendo 117 ms.
+
+Em resumo, o servidor está funcionando sem falhas, mas o desempenho pode ser melhorado, já que o número de requisições por segundo está abaixo do ideal para um endpoint de produção de alta demanda.

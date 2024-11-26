@@ -8,11 +8,12 @@
     </PropertyGroup>
     
     <ItemGroup>
-        <PackageReference Include="Grpc.AspNetCore" Version="2.57.0"/>
+        <PackageReference Include="Grpc.AspNetCore" Version="2.67.0" />
         <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="8.0.10">
           <PrivateAssets>all</PrivateAssets>
           <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
         </PackageReference>
+        <PackageReference Include="MongoDB.Driver" Version="3.0.0" />
         <PackageReference Include="Pomelo.EntityFrameworkCore.MySql" Version="8.0.2" />
     </ItemGroup>
 
@@ -21,17 +22,27 @@
         <Link>.dockerignore</Link>
       </Content>
       <Content Remove="Protos\**" />
+      <Content Remove="Migrations\**" />
     </ItemGroup>
 
     <ItemGroup>
       <Folder Include="Controllers\" />
-    </ItemGroup>
-
-    <ItemGroup>
-        <Protobuf Include="..\GrpcContracts\**\*.proto" GrpcServices="Server"/>
+      <Folder Include="Persistence\Configurations\" />
     </ItemGroup>
 
     <ItemGroup>
       <ProjectReference Include="..\..\GrpcContracts\GrpcContracts\GrpcContracts.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Compile Remove="Migrations\**" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <EmbeddedResource Remove="Migrations\**" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <None Remove="Migrations\**" />
     </ItemGroup>
 </Project>
