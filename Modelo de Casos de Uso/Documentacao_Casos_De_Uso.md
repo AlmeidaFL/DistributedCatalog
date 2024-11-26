@@ -424,4 +424,260 @@
 ## Notas de Design e Observações
 - O design da interface deve garantir que o formulário de suporte seja simples e acessível tanto em dispositivos móveis quanto em desktop.  
 - Sugere-se o uso de mensagens claras e amigáveis durante a abertura de chamados, com foco em orientar o usuário em caso de erros.  
-- O sistema deve ter um mecanismo para acompanhar o status do chamado diretamente pelo perfil do Destinatário, evitando a necessidade de chamadas externas para atualização.  
+- O sistema deve ter um mecanismo para acompanhar o status do chamado diretamente pelo perfil do Destinatário, evitando a necessidade de chamadas externas para atualização.
+
+---
+
+# UC-B01: Busca por Categoria
+
+## Identificação
+**Nome do Caso de Uso:** Busca por Categoria  
+**ID do Caso de Uso:** UC-B01  
+**Ator Primário:** Buscador de Embalagens  
+**Atores Secundários:** Nenhum  
+**Objetivo:** Permitir que o usuário filtre embalagens disponíveis no marketplace com base em categorias predefinidas.  
+
+## Pré-condições
+- O usuário deve ter acesso ao sistema (não necessariamente autenticado).  
+- Deve haver categorias previamente cadastradas no sistema.  
+
+## Pós-condições
+- O sistema retorna uma lista de embalagens pertencentes à categoria selecionada.  
+
+## Fluxo Principal de Ações
+1. O usuário acessa a funcionalidade de busca por categoria.  
+2. O sistema exibe uma lista de categorias disponíveis.  
+3. O usuário seleciona uma categoria.  
+4. O sistema busca e exibe os produtos correspondentes à categoria escolhida.  
+
+## Fluxos Alternativos
+
+### Fluxo Alternativo A: Categoria Não Contém Produtos
+**Condição de ativação:** A categoria selecionada não possui produtos disponíveis.  
+1. O sistema exibe uma mensagem informando que não há produtos cadastrados na categoria selecionada.  
+
+## Requisitos Não Funcionais
+- O sistema deve retornar os resultados da busca em até 3 segundos.  
+
+## Notas de Design e Observações
+- As categorias devem ser exibidas de forma hierárquica, se aplicável (ex.: "Plásticos > PET").  
+- A interface deve ser intuitiva e responsiva.  
+
+---
+
+# UC-B02: Busca por Material
+
+## Identificação
+**Nome do Caso de Uso:** Busca por Material  
+**ID do Caso de Uso:** UC-B02  
+**Ator Primário:** Buscador de Embalagens  
+**Atores Secundários:** Nenhum  
+**Objetivo:** Permitir que o usuário filtre embalagens com base no material utilizado (ex.: PET, papelão, vidro).  
+
+## Pré-condições
+- O usuário deve ter acesso ao sistema.  
+- Os materiais devem estar cadastrados no sistema e associados aos produtos.  
+
+## Pós-condições
+- O sistema retorna uma lista de produtos filtrados pelo material selecionado.  
+
+## Fluxo Principal de Ações
+1. O usuário acessa a funcionalidade de busca por material.  
+2. O sistema exibe uma lista de materiais disponíveis.  
+3. O usuário seleciona um material.  
+4. O sistema busca e exibe os produtos correspondentes ao material escolhido.  
+
+## Fluxos Alternativos
+
+### Fluxo Alternativo A: Material Não Encontrado
+**Condição de ativação:** Não há produtos cadastrados para o material selecionado.  
+1. O sistema exibe uma mensagem informando que não há produtos disponíveis para o material escolhido.  
+
+## Requisitos Não Funcionais
+- A busca deve retornar resultados em até 3 segundos.  
+
+## Notas de Design e Observações
+- A busca por material deve ser combinável com outros filtros (ex.: categoria, preço).  
+
+---
+
+# UC-B03: Busca por Quantidade Mínima
+
+## Identificação
+**Nome do Caso de Uso:** Busca por Quantidade Mínima  
+**ID do Caso de Uso:** UC-B03  
+**Ator Primário:** Buscador de Embalagens  
+**Atores Secundários:** Nenhum  
+**Objetivo:** Permitir que o usuário filtre embalagens com base na quantidade mínima disponível.  
+
+## Pré-condições
+- O usuário deve ter acesso ao sistema.  
+- Os produtos devem ter suas quantidades mínimas registradas no sistema.  
+
+## Pós-condições
+- O sistema exibe os produtos que atendem ao critério de quantidade mínima.  
+
+## Fluxo Principal de Ações
+1. O usuário acessa a funcionalidade de busca por quantidade mínima.  
+2. O sistema apresenta um filtro de busca com a opção de especificar a quantidade mínima desejada.  
+3. O usuário insere o valor da quantidade mínima e confirma a busca.  
+4. O sistema filtra os produtos no banco de dados com base na quantidade mínima especificada.  
+5. O sistema exibe os produtos que atendem ao critério solicitado, incluindo detalhes como descrição, preço e quantidade disponível.  
+6. O usuário pode refinar os resultados adicionando outros filtros (ex.: preço, material, categoria) ou selecionar um produto para mais informações.  
+
+## Fluxos Alternativos
+
+### Fluxo Alternativo A: Nenhum Produto Atende ao Critério
+**Condição de ativação:** Não há produtos disponíveis com a quantidade mínima especificada.  
+1. O sistema exibe uma mensagem informando que não há produtos disponíveis com a quantidade solicitada.  
+
+## Requisitos Não Funcionais
+- A busca deve ser realizada em até 5 segundos, mesmo com filtros combinados.  
+
+## Notas de Design e Observações
+- O filtro de quantidade mínima pode ser combinado com outros critérios (ex.: preço, categoria).  
+
+---
+
+# UC-B04: Busca por Tempo de Entrega
+
+## Identificação
+**Nome do Caso de Uso:** Busca por Tempo de Entrega  
+**ID do Caso de Uso:** UC-B04  
+**Ator Primário:** Buscador de Embalagens  
+**Atores Secundários:** Nenhum  
+**Objetivo:** Permitir que o usuário filtre produtos com base no prazo de entrega estimado.  
+
+## Pré-condições
+- O usuário deve ter acesso ao sistema.  
+- Os produtos devem ter prazos de entrega associados.  
+
+## Pós-condições
+- O sistema retorna os produtos disponíveis que atendem ao prazo de entrega especificado.  
+
+## Fluxo Principal de Ações
+1. O usuário acessa a funcionalidade de busca por tempo de entrega.  
+2. O sistema solicita ao usuário que insira ou selecione um intervalo de tempo (ex.: 1-3 dias, 4-7 dias).  
+3. O sistema filtra os produtos com base no prazo definido e exibe os resultados.  
+
+## Fluxos Alternativos
+
+### Fluxo Alternativo A: Nenhum Produto Atende ao Critério de Tempo de Entrega
+**Condição de ativação:** Não há produtos disponíveis para o prazo especificado.  
+1. O sistema informa que não há produtos com o tempo de entrega desejado.  
+
+## Requisitos Não Funcionais
+- O sistema deve realizar a busca em até 3 segundos.  
+
+## Notas de Design e Observações
+- A interface deve exibir o tempo de entrega junto com os resultados para ajudar na comparação.  
+- O filtro pode ser combinado com outros critérios, como preço ou material.  
+
+---
+
+# UC-B05: Busca por Preço
+
+## Identificação
+**Nome do Caso de Uso:** Busca por Preço  
+**ID do Caso de Uso:** UC-B05  
+**Ator Primário:** Buscador de Embalagens  
+**Atores Secundários:** Nenhum  
+**Objetivo:** Permitir que o usuário filtre produtos com base em um intervalo de preços.  
+
+## Pré-condições
+- O usuário deve ter acesso ao sistema.  
+- Os produtos devem ter preços registrados no sistema.  
+
+## Pós-condições
+- O sistema retorna os produtos que atendem ao intervalo de preços definido.  
+
+## Fluxo Principal de Ações
+1. O usuário acessa a funcionalidade de busca por preço.  
+2. O sistema solicita que o usuário insira ou selecione um intervalo de preços (ex.: R$10,00 - R$100,00).  
+3. O sistema filtra e exibe os produtos que atendem ao intervalo especificado.  
+
+## Fluxos Alternativos
+
+### Fluxo Alternativo A: Nenhum Produto Atende ao Intervalo de Preços
+**Condição de ativação:** Não há produtos no intervalo de preços definido pelo usuário.  
+1. O sistema exibe uma mensagem informando que não há produtos disponíveis.  
+
+## Requisitos Não Funcionais
+- A busca deve ser concluída em até 3 segundos.  
+
+## Notas de Design e Observações
+- O sistema deve permitir filtros adicionais, como ordenação por menor ou maior preço.  
+
+---
+
+# UC-B06: Alerta de Disponibilidade
+
+## Identificação
+**Nome do Caso de Uso:** Alerta de Disponibilidade  
+**ID do Caso de Uso:** UC-B06  
+**Ator Primário:** Buscador de Embalagens  
+**Atores Secundários:** Nenhum  
+**Objetivo:** Permitir que o usuário configure alertas para ser notificado quando um produto indisponível voltar ao estoque.  
+
+## Pré-condições
+- O usuário deve estar autenticado no sistema.  
+- Deve haver produtos atualmente indisponíveis no marketplace.  
+
+## Pós-condições
+- O sistema registra o alerta de disponibilidade e notifica o usuário quando o produto voltar ao estoque.  
+
+## Fluxo Principal de Ações
+1. O usuário acessa um produto indisponível.  
+2. O sistema oferece a opção de configurar um alerta.  
+3. O usuário confirma a configuração do alerta.  
+4. O sistema registra o alerta e exibe uma mensagem de confirmação.  
+5. Quando o produto volta ao estoque, o sistema notifica o usuário (ex.: e-mail ou push notification).  
+
+## Fluxos Alternativos
+
+### Fluxo Alternativo A: Produto Torna-se Disponível Antes da Configuração do Alerta
+**Condição de ativação:** O produto volta ao estoque antes que o alerta seja configurado.  
+1. O sistema informa que o produto está disponível e não permite configurar o alerta.  
+
+## Requisitos Não Funcionais
+- As notificações devem ser enviadas em tempo real assim que o produto estiver disponível.  
+
+## Notas de Design e Observações
+- O sistema deve garantir a privacidade do usuário ao enviar notificações.  
+- Deve ser possível visualizar e gerenciar alertas configurados pelo usuário.  
+
+---
+
+# UC-B07: Busca por Dimensões
+
+## Identificação
+**Nome do Caso de Uso:** Busca por Dimensões  
+**ID do Caso de Uso:** UC-B07  
+**Ator Primário:** Buscador de Embalagens  
+**Atores Secundários:** Nenhum  
+**Objetivo:** Permitir que o usuário filtre embalagens com base em dimensões específicas (ex.: altura, largura, profundidade).  
+
+## Pré-condições
+- O usuário deve ter acesso ao sistema.  
+- Os produtos devem ter dimensões registradas no sistema.  
+
+## Pós-condições
+- O sistema exibe os produtos que atendem às dimensões especificadas pelo usuário.  
+
+## Fluxo Principal de Ações
+1. O usuário acessa a funcionalidade de busca por dimensões.  
+2. O sistema solicita que o usuário insira as dimensões desejadas.  
+3. O sistema filtra os produtos e exibe os que atendem aos critérios definidos.  
+
+## Fluxos Alternativos
+
+### Fluxo Alternativo A: Nenhum Produto Atende às Dimensões Especificadas
+**Condição de ativação:** Não há produtos que atendam às dimensões inseridas pelo usuário.  
+1. O sistema informa que não há produtos disponíveis para as dimensões especificadas.  
+
+## Requisitos Não Funcionais
+- A busca deve retornar os resultados em até 3 segundos.  
+
+## Notas de Design e Observações
+- A interface deve permitir a seleção de intervalos ou medidas exatas para as dimensões.  
+
