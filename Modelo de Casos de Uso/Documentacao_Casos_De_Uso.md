@@ -1462,3 +1462,151 @@
 - As notificações devem incluir informações resumidas, como número do pedido e itens.  
 - Deve haver suporte para notificações via e-mail e aplicativo móvel.  
 
+---
+
+# UC-AE01: Analisa Desempenho de Produtos
+
+## Identificação
+**Nome do Caso de Uso:** Analisa Desempenho de Produtos  
+**ID do Caso de Uso:** UC-AE01  
+**Ator Primário:** Administrador de Estoque  
+**Atores Secundários:** Sistema de Pedidos  
+**Objetivo:** Permitir que o administrador avalie o desempenho de vendas e movimentação de cada produto no estoque.  
+
+## Pré-condições
+- O administrador deve estar autenticado no sistema.  
+- O sistema deve ter registros atualizados de vendas e movimentação de produtos.  
+
+## Pós-condições
+- O administrador visualiza relatórios detalhados sobre o desempenho de produtos.  
+- O sistema registra as análises realizadas para auditoria futura.  
+
+## Fluxo Principal de Ações
+1. O administrador acessa a seção de análise de produtos.  
+2. O sistema exibe a lista de produtos e métricas de desempenho (ex.: vendas, devoluções, estoque restante).  
+3. O administrador seleciona um produto para análise detalhada.  
+4. O sistema gera gráficos e relatórios com dados históricos e tendências.  
+5. O administrador identifica padrões e toma decisões estratégicas.  
+
+## Fluxos Alternativos
+
+### Fluxo Alternativo A: Filtro Personalizado
+**Condição de ativação:** O administrador deseja aplicar filtros específicos (ex.: período, categoria).  
+1. O administrador configura os filtros desejados.  
+2. O sistema atualiza os relatórios com base nos filtros aplicados.  
+
+## Fluxos de Exceção
+
+### Exceção 1: Dados Incompletos
+**Condição de ativação:** O sistema detecta inconsistências nos dados.  
+1. O sistema informa o administrador e sugere ações corretivas.  
+
+## Requisitos Não Funcionais
+- O sistema deve suportar análise de até 10.000 produtos simultaneamente.  
+
+## Notas de Design e Observações
+- A interface deve incluir gráficos de fácil interpretação (ex.: barras, linhas).  
+- Deve ser possível exportar os relatórios em formatos como PDF ou Excel.  
+
+---
+
+# UC-AE02: Monitora Estoque Restante
+
+## Identificação
+**Nome do Caso de Uso:** Monitora Estoque Restante  
+**ID do Caso de Uso:** UC-AE02  
+**Ator Primário:** Administrador de Estoque  
+**Atores Secundários:** Sistema de Estoque  
+**Objetivo:** Permitir que o administrador acompanhe os níveis de estoque em tempo real.  
+
+## Pré-condições
+- O administrador deve estar autenticado no sistema.  
+- O sistema deve ter dados atualizados sobre o estoque disponível.  
+
+## Pós-condições
+- O administrador tem uma visão clara dos níveis de estoque por produto.  
+- Alertas são configurados para itens com níveis críticos.  
+
+## Fluxo Principal de Ações
+1. O administrador acessa o painel de monitoramento do estoque.  
+2. O sistema exibe os níveis de estoque de todos os produtos em tempo real.  
+3. O administrador identifica produtos com estoque baixo ou em excesso.  
+4. O administrador configura alertas ou atualiza registros.  
+
+## Fluxos Alternativos
+
+### Fluxo Alternativo A: Filtro por Categoria
+**Condição de ativação:** O administrador deseja visualizar o estoque de uma categoria específica.  
+1. O administrador aplica o filtro desejado.  
+2. O sistema atualiza a exibição com base no filtro.  
+
+## Requisitos Não Funcionais
+- O sistema deve atualizar os dados de estoque a cada 5 minutos.  
+- A interface deve suportar visualização de até 500 produtos por página.  
+
+## Notas de Design e Observações
+- O painel deve incluir barras de progresso para indicar níveis de estoque.  
+- Alertas visuais (ex.: cores) devem ser usados para itens em estoque crítico.  
+
+---
+
+# UC-AE03: Monitora Vendas
+
+## Identificação
+**Nome do Caso de Uso:** Monitora Vendas  
+**ID do Caso de Uso:** UC-AE03  
+**Ator Primário:** Administrador de Estoque  
+**Atores Secundários:** Sistema de Pedidos  
+**Objetivo:** Permitir que o administrador acompanhe as vendas em tempo real.  
+
+## Pré-condições
+- O administrador deve estar autenticado no sistema.  
+- O sistema deve estar integrado aos registros de vendas.  
+
+## Pós-condições
+- Relatórios de vendas são visualizados pelo administrador.  
+- Decisões estratégicas de reabastecimento são tomadas.  
+
+## Fluxo Principal de Ações
+1. O administrador acessa o painel de monitoramento de vendas.  
+2. O sistema exibe o histórico e os dados de vendas recentes.  
+3. O administrador filtra as vendas por período ou produto.  
+4. O sistema atualiza os gráficos e relatórios.  
+
+## Requisitos Não Funcionais
+- O sistema deve atualizar os dados de vendas em tempo real.  
+- Relatórios detalhados devem ser gerados em até 5 segundos.  
+
+## Notas de Design e Observações
+- A interface deve incluir indicadores de performance como gráficos de linha ou pizza.  
+
+---
+
+# UC-AE05: Alerta Estoque Mínimo de Embalagem
+
+## Identificação
+**Nome do Caso de Uso:** Alerta Estoque Mínimo de Embalagem  
+**ID do Caso de Uso:** UC-AE05  
+**Ator Primário:** Administrador de Estoque  
+**Atores Secundários:** Sistema de Estoque  
+**Objetivo:** Enviar alertas para o administrador quando o estoque atingir o nível mínimo configurado.  
+
+## Pré-condições
+- Os níveis mínimos de estoque devem estar configurados no sistema.  
+
+## Pós-condições
+- O administrador recebe alertas para reabastecimento.  
+- Decisões sobre compras ou ajustes logísticos são tomadas.  
+
+## Fluxo Principal de Ações
+1. O sistema monitora os níveis de estoque de cada vendedor.  
+2. Quando um produto atinge o nível mínimo, o sistema gera um alerta.  
+3. O administrador recebe a notificação e visualiza os detalhes.  
+
+## Requisitos Não Funcionais
+- O sistema deve enviar alertas em até 1 segundo após a detecção.  
+- Deve haver suporte para notificações por e-mail e aplicativo móvel.  
+
+## Notas de Design e Observações
+- Os alertas devem ser claros e incluir informações sobre o produto, quantidade restante e recomendação de ação.  
+
