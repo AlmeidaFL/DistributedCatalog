@@ -1,0 +1,66 @@
+@startuml
+left to right direction
+skinparam shadowing true
+
+actor Destinatário
+
+' ---------------- UC-DE
+' Boundaries
+boundary NotificaStatusPedidoView
+boundary RastreamentoEntregaView
+boundary AgendaRecebimentoView
+boundary RecebeNFDocumentosView
+boundary AvaliacaoTransportadoraVendedorView
+boundary AvaliacaoConformidadePedidoView
+boundary AcionaSuporteView
+
+' Controllers
+control NotificaStatusPedidoController
+control RastreamentoEntregaController
+control AgendaRecebimentoController
+control RecebeNFDocumentosController
+control AvaliacaoTransportadoraVendedorController
+control AvaliacaoConformidadePedidoController
+control AcionaSuporteController
+
+Destinatário --> NotificaStatusPedidoView
+Destinatário --> RastreamentoEntregaView
+Destinatário --> AgendaRecebimentoView
+Destinatário --> RecebeNFDocumentosView
+Destinatário --> AvaliacaoTransportadoraVendedorView
+Destinatário --> AvaliacaoConformidadePedidoView
+Destinatário --> AcionaSuporteView
+
+NotificaStatusPedidoView --> NotificaStatusPedidoController
+RastreamentoEntregaView --> RastreamentoEntregaController
+AgendaRecebimentoView --> AgendaRecebimentoController
+RecebeNFDocumentosView --> RecebeNFDocumentosController
+AvaliacaoTransportadoraVendedorView --> AvaliacaoTransportadoraVendedorController
+AvaliacaoConformidadePedidoView --> AvaliacaoConformidadePedidoController
+AcionaSuporteView --> AcionaSuporteController
+
+entity Pedido
+entity Frete
+entity Transportadora
+entity Vendedor
+
+NotificaStatusPedidoController --> Pedido
+NotificaStatusPedidoController --> Transportadora
+
+RastreamentoEntregaController --> Transportadora
+RastreamentoEntregaController --> Pedido
+
+AgendaRecebimentoController --> Frete
+AgendaRecebimentoController --> Transportadora
+
+RecebeNFDocumentosController --> Pedido
+
+AvaliacaoTransportadoraVendedorController --> Transportadora
+AvaliacaoTransportadoraVendedorController --> Vendedor
+
+AvaliacaoConformidadePedidoController --> Pedido
+
+AcionaSuporteController --> Pedido
+
+
+@enduml

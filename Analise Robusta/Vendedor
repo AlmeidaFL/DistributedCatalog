@@ -1,0 +1,55 @@
+@startuml
+left to right direction
+skinparam shadowing true
+
+actor Vendedor
+
+' ---------------- UC-V
+' Boundaries
+boundary GerenciaContaBancariaView
+boundary GerenciaEnderecoColetaView
+boundary GerenciaCadastroVendedorView
+boundary RelatorioVendasView
+boundary DescontosPromocionaisView
+boundary RespostasDuvidasView
+
+' Controllers
+control GerenciaContaBancariaController
+control GerenciaEnderecoColetaController
+control GerenciaCadastroVendedorController
+control RelatorioVendasController
+control DescontosPromocionaisController
+control RespostasDuvidasController
+
+Vendedor --> GerenciaContaBancariaView
+Vendedor --> GerenciaEnderecoColetaView
+Vendedor --> GerenciaCadastroVendedorView
+Vendedor --> RelatorioVendasView
+Vendedor --> DescontosPromocionaisView
+Vendedor --> RespostasDuvidasView
+
+GerenciaContaBancariaView --> GerenciaContaBancariaController
+GerenciaEnderecoColetaView --> GerenciaEnderecoColetaController
+GerenciaCadastroVendedorView --> GerenciaCadastroVendedorController
+RelatorioVendasView --> RelatorioVendasController
+DescontosPromocionaisView --> DescontosPromocionaisController
+RespostasDuvidasView --> RespostasDuvidasController
+
+entity Produto
+entity HistoricoPedidos
+entity Vendedor as ven
+entity Cupom
+
+GerenciaContaBancariaController --> ven
+GerenciaEnderecoColetaController --> ven
+
+GerenciaCadastroVendedorController --> ven
+
+RelatorioVendasController --> HistoricoPedidos
+
+DescontosPromocionaisController --> Produto
+DescontosPromocionaisController --> Cupom
+
+RespostasDuvidasController --> Produto
+
+@enduml

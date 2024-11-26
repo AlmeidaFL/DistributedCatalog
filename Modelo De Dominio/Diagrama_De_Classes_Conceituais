@@ -1,0 +1,94 @@
+@startuml
+abstract class Produto <<concept>>
+
+class Embalagem <<concept>> extends Produto
+
+class EndereçoDeEntrega <<concept>>
+class EndereçoDeCobrança <<concept>>
+class EndereçoDeColeta <<concept>>
+class EndereçoDeFaturamento <<concept>>
+
+class Comprador <<concept>> {
+  Nome
+  Email
+  Telefone
+}
+
+class Vendedor <<concept>> {
+  Nome
+  Email
+  Telefone
+}
+
+class Item <<concept>> {
+  PreçoUnitário
+  Quantidade
+  Subtotal
+}
+
+class Carrinho <<concept>> {
+  ValorTotal
+}
+
+class ResumoDoCarrinho <<concept>> {
+  NúmeroDeItens
+  ValorTotal
+}
+
+class Pedido <<concept>> {
+  ValorTotal
+  Status
+  DataDoPedido
+}
+
+class ResumoDoPedido <<concept>> {
+  CódigoPedido
+  ValorTotal
+  Status
+  DataDoPedido
+}
+
+class Pagamento <<concept>> {
+  ValorPago
+  DataDePagamento
+  MétodoDePagamento
+  Status
+}
+
+class Frete <<concept>> {
+  Valor
+  PrazoDeEntrega
+  Transportadora
+}
+
+class CategoriaDeProduto <<concept>> {
+  Nome
+  Descrição
+}
+
+class Cupom <<concept>> 
+
+Cupom "1" -- "1" Pedido
+
+Comprador "1" o-- "1" Carrinho
+Carrinho "1" o-- "0..n" Item
+Pedido "1" o-- "0..n" Item
+Pedido "1" -- "1" Pagamento
+Pedido "1" o-- "1" Frete
+Item "1" o-- "1" Produto
+
+ResumoDoCarrinho "1" --o "1" Carrinho
+
+ResumoDoPedido "1" --o "1" Pedido
+
+Comprador "1" o-- "1..3" EndereçoDeEntrega
+Comprador "1" o-- "1" EndereçoDeCobrança
+
+Produto "1" --> "1" CategoriaDeProduto
+
+Vendedor "1" o-- "1..n" Produto
+Vendedor "1" o-- "1..3" EndereçoDeColeta
+Vendedor "1" o-- "1" EndereçoDeFaturamento
+
+@enduml
+

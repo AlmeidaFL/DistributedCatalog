@@ -1,0 +1,41 @@
+@startuml
+left to right direction
+skinparam shadowing true
+
+actor "Administrador de Estoque" as adm
+
+' ---------------- UC-AE
+' Boundaries
+boundary AnaliseProdutosView 
+boundary MonitoramentoEstoqueView
+boundary MonitoramentoVendasView
+boundary AlertaEstoqueMinimoView
+
+' Controllers
+control AnaliseProdutosController
+control MonitoramentoEstoqueController
+control MonitoramentoVendasController
+control AlertaEstoqueMinimoController
+
+adm --> AnaliseProdutosView
+adm --> MonitoramentoEstoqueView
+adm --> MonitoramentoVendasView
+adm --> AlertaEstoqueMinimoView
+
+AnaliseProdutosView --> AnaliseProdutosController
+MonitoramentoEstoqueView --> MonitoramentoEstoqueController
+MonitoramentoVendasView --> MonitoramentoVendasController
+AlertaEstoqueMinimoView --> AlertaEstoqueMinimoController
+
+entity Estoque
+entity HistoricoPedidos
+
+AnaliseProdutosController --> HistoricoPedidos
+
+MonitoramentoEstoqueController --> Estoque
+
+MonitoramentoVendasController --> HistoricoPedidos
+
+AlertaEstoqueMinimoController --> Estoque
+
+@enduml

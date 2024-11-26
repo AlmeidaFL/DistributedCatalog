@@ -1,0 +1,11 @@
+<diagram program="umletino" version="15.1"><zoom_level>10</zoom_level><element><id>UMLHierarchy</id><coordinates><x>490</x><y>240</y><w>320</w><h>440</h></coordinates><panel_attributes>type=Actor
+Autorizado
+	Vendedor
+		Distribuidor
+		Administrador de estoque
+
+	Comprador
+		Buscador de embalagens
+		destinatário
+
+</panel_attributes><additional_attributes></additional_attributes></element></diagram>

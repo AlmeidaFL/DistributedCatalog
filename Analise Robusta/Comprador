@@ -1,0 +1,56 @@
+@startuml
+left to right direction
+skinparam shadowing true
+
+actor Comprador
+
+' ---------------- UC-C
+' Boundaries
+boundary AdicionaAoCarrinhoView
+boundary RealizaPedidoView
+boundary CriaCadastroCompradorView
+boundary HistoricoPedidosView
+boundary SugestoesAnunciosView
+
+' Controllers
+control AdicionaAoCarrinhoController
+control RealizaPedidoController
+control CriaCadastroCompradorController
+control HistoricoPedidosController
+control SugestoesAnunciosController
+
+Comprador --> AdicionaAoCarrinhoView
+Comprador --> RealizaPedidoView
+Comprador --> CriaCadastroCompradorView
+Comprador --> HistoricoPedidosView
+Comprador --> SugestoesAnunciosView
+
+AdicionaAoCarrinhoView --> AdicionaAoCarrinhoController
+RealizaPedidoView --> RealizaPedidoController
+CriaCadastroCompradorView --> CriaCadastroCompradorController
+HistoricoPedidosView --> HistoricoPedidosController
+SugestoesAnunciosView --> SugestoesAnunciosController
+
+entity Carrinho
+entity Pedido
+entity Produto
+entity Endereco
+entity Pagamento
+entity Comprador as comp
+entity HistoricoPedidos
+
+AdicionaAoCarrinhoController --> Carrinho
+AdicionaAoCarrinhoController --> Produto
+
+RealizaPedidoController --> Pedido
+RealizaPedidoController --> comp
+RealizaPedidoController --> Carrinho
+RealizaPedidoController --> Endereco
+RealizaPedidoController --> Pagamento
+
+HistoricoPedidosController --> HistoricoPedidos
+
+SugestoesAnunciosController --> Produto
+
+CriaCadastroCompradorController --> comp
+@enduml

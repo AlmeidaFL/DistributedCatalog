@@ -1,0 +1,46 @@
+@startuml
+left to right direction
+skinparam shadowing true
+
+actor Distribuidor
+
+' ---------------- UC-DI
+' Boundaries
+boundary GerenciaDevolucoesView
+boundary OrganizaEntregasView
+boundary LogisticaPersonalizadaView
+boundary NotificaNovosPedidosView
+
+' Controllers
+control GerenciaDevolucoesController
+control OrganizaEntregasController
+control LogisticaPersonalizadaController
+control NotificaNovosPedidosController
+
+Distribuidor --> GerenciaDevolucoesView
+Distribuidor --> OrganizaEntregasView
+Distribuidor --> LogisticaPersonalizadaView
+Distribuidor --> NotificaNovosPedidosView
+
+GerenciaDevolucoesView --> GerenciaDevolucoesController
+OrganizaEntregasView --> OrganizaEntregasController
+LogisticaPersonalizadaView --> LogisticaPersonalizadaController
+NotificaNovosPedidosView --> NotificaNovosPedidosController
+
+entity Estoque
+entity Pedido
+entity Endereco
+entity Transportadora
+
+GerenciaDevolucoesController --> Estoque
+GerenciaDevolucoesController --> Transportadora
+
+OrganizaEntregasController --> Pedido
+OrganizaEntregasController --> Endereco
+
+LogisticaPersonalizadaController --> Pedido
+LogisticaPersonalizadaController --> Transportadora
+
+NotificaNovosPedidosController --> Pedido
+
+@enduml

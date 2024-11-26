@@ -1,0 +1,187 @@
+@startuml
+
+class Endereco <<logic>> {
+  cep : String
+  rua : String
+  numero : int
+  complemento : String
+  bairro : String
+  cidade : String
+  estado : String
+  verificarEndereco() : boolean
+  validarEndereco() : boolean
+  enderecoFoiValidado() : boolean
+}
+
+abstract class Produto <<logic>> {
+  id : int
+  nome : String
+  marca : String
+  categoria : CategoriaDeProduto
+  descricao : String
+  precoUnitario : Preco
+}
+
+class Embalagem <<logic>> extends Produto {
+  espessura : double
+  comprimento : double
+  largura : double
+  volume : double
+  unidadesPorPacote : int
+}
+
+class Estoque <<logic>> {
+  mercadorias : Map<Produto, qtde>
+  reservarQuantidade(p : Produto, qtde : int) : boolean
+  atualizarQuantidade(p : Produto, qtde : int) : boolean
+  adicionarMercadoria(p : Produto, qtde : int) : boolean
+  removerMercadoria(p : Produto) : boolean
+}
+
+abstract class Autenticado <<logic>> {
+  Nome : String
+  Email : String
+  Senha : Senha
+  Telefone : String
+  cnpj : String
+  cadastrarUsuario() : boolean
+  verificarEValidarLogin(email: String, senha: String): boolean
+  alterarSenha(novaSenha: String): boolean
+  recuperarSenha(email: String): boolean
+  adicioanarEndereco(e : Endereco) : boolean
+  removerEndereco(e : Endereco) : boolean
+}
+
+class Comprador <<logic>> extends Autenticado {
+  pedidos : HistoricoPedidos
+  enderecoEntrega : List<Endereco>
+  enderecoCobranca : Endereco
+  adicionarAoCarrinho(Produto) : boolean
+  removerDoCarrinho(Produto) : boolean
+}
+
+class HistoricoPedidos <<logic>> {
+  pedidos : Map<Pedido, status>
+  verHistorioPedidos() : void
+}
+
+class Vendedor <<logic>> extends Autenticado {
+  estoque : Estoque
+  enderecosColeta : List<Endereco>
+  enderecoFaturamento : Endereco
+  cadastrarProduto(p : Produto) : boolean
+  removerProduto(p : Produto) : boolean
+  adicionarContaFaturamento(c : ContaBancaria) : boolean
+  removerContaFaturamento(c : ContaBancaria)
+}
+
+class Item <<logic>> {
+  produto : Produto
+  quantidade : int
+  getSubtotal() : Preco
+}
+
+class Carrinho <<logic>> {
+  itens : List<Item>
+  ValorTotal : Preco
+  adicionarItem(p : Produto, qtde : int)
+  removerItem(p : Produto) : boolean
+  resumoDoCarrinho() : String
+  fecharPedido() : void
+}
+
+class Pedido <<logic>> {
+  id : int
+  itens : List<Itens>
+  frete : Frete
+  cupom : Cupom
+  pagamento : Pagamento
+  Status : StatusPedido
+  DataDoPedido : Date
+  DataDeColeta : Date
+  DataDeEntrega : Date
+  resumoDoPedido()
+}
+
+enum StatusPedido <<logic>> {
+  {CRIADO, PROCESSANDO, 
+  ENVIADO, TRANSITO,
+  ENTREGUE, CANCELADO}
+}
+
+
+class Pagamento <<logic>> {
+  ValorPago : Preco
+  DataDePagamento : Date
+  metodoPag : MetodoPagamento
+  Status : StatusPagamento
+}
+
+enum StatusPagamento <<logic>> {
+  { PROCESSANDO, RECUSADO
+  , CONFIRMADO }
+}
+
+enum MetodoPagamento <<logic>> {
+  {CREDITO, DEBITO
+  BOLETO, PIX}
+}
+
+class Frete <<logic>> {
+  Valor : Preco
+  PrazoDeEntrega : int
+  Transportadora : Transportadora
+}
+
+class CategoriaDeProduto <<logic>> {
+  id : int
+  Nome : String
+  Descrição : String
+}
+
+class Cupom <<logic>> {
+  codigo : String
+  desconto : int
+  aplicarDesconto(p : Preco) : Preco 
+}
+
+
+class Preco <<logic>> {
+  valor : double
+  getPreco()
+}
+
+Preco "1" --* "1" Frete
+Preco "1" --o "1" Produto
+Preco "1" --* "1" Pagamento
+Preco "'" <.. Cupom 
+
+Cupom "1" --o "1" Pedido
+
+Comprador "1" *-- "1" Carrinho
+Comprador "1" *-- "1" HistoricoPedidos
+Carrinho "1" o-- "0..n" Item
+
+Pedido "1" *-- "1" StatusPedido
+Pedido "1" o-- "1..n" Item
+Pedido "1" -- "1" Pagamento
+Pedido "1" o- "1" Frete
+Pedido "0..n" --* "1" HistoricoPedidos
+
+Produto "1" -- "1" CategoriaDeProduto
+
+Vendedor "1" *-- "1" Estoque
+
+Estoque "1" *-- "1" Produto
+
+Comprador "1" *-- "4" Endereco
+Vendedor "1" *-- "4" Endereco
+Pedido "1" *-- "1" Endereco
+
+Produto "1" --o "1" Item
+
+Pagamento "1" o-- "1" MetodoPagamento
+Pagamento "1" o-- "1" StatusPagamento
+
+@enduml
+

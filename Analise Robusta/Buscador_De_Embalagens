@@ -1,0 +1,58 @@
+@startuml
+left to right direction
+skinparam shadowing true
+
+actor "Buscador de Embalagens" as bus
+
+' ---------------- UC-B
+' Boundaries
+boundary BuscaPorCategoriaView
+boundary BuscaPorMaterialView
+boundary BuscaPorQuantidadeMinimaView
+boundary BuscaPorTempoEntregaView
+boundary BuscaPorPrecoView
+boundary AlertaDisponibilidadeView
+boundary BuscaPorDimensoesView
+
+' Controllers
+control BuscaPorCategoriaController
+control BuscaPorMaterialController
+control BuscaPorQuantidadeMinimaController
+control BuscaPorTempoEntregaController
+control BuscaPorPrecoController
+control AlertaDisponibilidadeController
+control BuscaPorDimensoesController
+
+bus --> BuscaPorCategoriaView
+bus --> BuscaPorMaterialView
+bus --> BuscaPorQuantidadeMinimaView
+bus --> BuscaPorTempoEntregaView
+bus --> BuscaPorPrecoView
+bus --> AlertaDisponibilidadeView
+bus --> BuscaPorDimensoesView
+
+BuscaPorCategoriaView --> BuscaPorCategoriaController
+BuscaPorMaterialView --> BuscaPorMaterialController
+BuscaPorQuantidadeMinimaView --> BuscaPorQuantidadeMinimaController
+BuscaPorTempoEntregaView --> BuscaPorTempoEntregaController
+BuscaPorPrecoView --> BuscaPorPrecoController
+AlertaDisponibilidadeView --> AlertaDisponibilidadeController
+BuscaPorDimensoesView --> BuscaPorDimensoesController
+
+entity Produto
+entity Estoque
+entity Transportadora
+
+BuscaPorCategoriaController --> Produto
+BuscaPorMaterialController --> Produto
+
+BuscaPorQuantidadeMinimaController --> Estoque
+BuscaPorQuantidadeMinimaController --> Produto
+
+BuscaPorTempoEntregaController --> Transportadora
+
+BuscaPorPrecoController --> Produto
+BuscaPorDimensoesController --> Produto
+AlertaDisponibilidadeController --> Produto
+
+@enduml
